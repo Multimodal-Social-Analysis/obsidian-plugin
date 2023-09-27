@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Dummy Folder/Dummy File.md",
+                "file": "Data/Bathroom.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Dummy Folder/Dummy File.md",
+                "file": "Data/Bathroom.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Dummy Folder/Dummy File.md",
+                "file": "Data/Bathroom.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Dummy Folder/Dummy File.md"
+                "file": "Data/Bathroom.md"
               }
             }
           }
@@ -137,7 +137,6 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "obsidian-plugin:Greet": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -146,7 +145,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "cec40ee644ff1191",
+  "active": "4fbd30f61c49de0f",
   "lastOpenFiles": [
     "README.md",
     "Dummy Folder/Dummy File.md",
