@@ -1,4 +1,5 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
+import * as fs from 'fs';
 
 // Remember to rename these classes and interfaces!
 
@@ -16,11 +17,19 @@ export default class MyPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
+		// Add read file command
+		this.addCommand({
+			id: 'read-md-file',
+			name: 'Read MD File',
+			callback: () => this.readMdFile(),
+		});
+
 		// This creates an icon in the left ribbon.
 		const ribbonIconEl = this.addRibbonIcon('dice', 'Greet', (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
-			new Notice('Hello! This is a notice!');
+			new Notice('Hello World.');
 		});
+
 		// Perform additional things with the ribbon
 		ribbonIconEl.addClass('my-plugin-ribbon-class');
 
@@ -76,6 +85,33 @@ export default class MyPlugin extends Plugin {
 
 		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
+	}
+
+	async readMdFile() {
+		console.log("Reading file.")
+
+		const vault = this.app.vault;
+		const fileName = 'Bathroom.md';
+
+		// Create a TFile object for the target .md file
+		const file: TFile | null = vault.getAbstractFileByPath('Data' + fileName) as TFile;
+
+		// If file exist
+		if (file) {
+			try {
+				// Read file from vault
+				const fileContent = await vault.read(file);
+
+				new Notice(fileContent);
+				console.log(fileContent);
+			}
+			catch (error) {
+				console.error(error);
+			}
+		}
+		else {
+			console.error(`File not found: ${fileName}`);
+		}
 	}
 
 	onunload() {
