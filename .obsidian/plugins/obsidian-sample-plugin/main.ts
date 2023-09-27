@@ -94,7 +94,7 @@ export default class MyPlugin extends Plugin {
 		const fileName = 'Bathroom.md';
 
 		// Create a TFile object for the target .md file
-		const file: TFile | null = vault.getAbstractFileByPath('Data' + fileName) as TFile;
+		const file: TFile | null = vault.getAbstractFileByPath('Data/' + fileName) as TFile;
 
 		// If file exist
 		if (file) {
