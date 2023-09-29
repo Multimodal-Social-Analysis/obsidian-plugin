@@ -11,23 +11,55 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 	mySetting: 'default'
 }
 
+export class FactorModal extends Modal {
+	result: string;
+	onSubmit: (result: string) => void;
+	
+	constructor(app: App, onSubmit: (result: string) => void) {
+	  super(app);
+	  this.onSubmit = onSubmit;
+	}
+  
+	onOpen() {
+		const { contentEl } = this;
+	  
+		contentEl.createEl("h1",{text: "Select Factor"});
+
+		 new Setting(contentEl)
+			.setName("")
+			.addText((text) =>
+				text.onChange((value) => {
+					this.result = value
+			}));
+
+		new Setting(contentEl)
+			.addButton((btn) =>
+				btn
+					.setButtonText("Submit")
+					.setCta()
+					.onClick(() => {
+						this.close();
+						this.onSubmit(this.result);
+					}));
+
+	}
+  
+	onClose() {
+	  let { contentEl } = this;
+	  contentEl.empty();
+	}
+}
+
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
 
 	async onload() {
 		await this.loadSettings();
 
-		// Add read file command
-		this.addCommand({
-			id: 'read-md-file',
-			name: 'Read MD File',
-			callback: () => this.readMdFile(),
-		});
-
 		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('dice', 'Greet', (evt: MouseEvent) => {
+		const ribbonIconEl = this.addRibbonIcon('search', 'Greet', (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
-			new Notice('Hello World.');
+			this.selectFactor();
 		});
 
 		// Perform additional things with the ribbon
@@ -87,11 +119,11 @@ export default class MyPlugin extends Plugin {
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 	}
 
-	async readMdFile() {
+	async readMdFile(f: string) {
 		console.log("Reading file.")
 
 		const vault = this.app.vault;
-		const fileName = 'Bathroom.md';
+		const fileName = f + '.md';
 
 		// Create a TFile object for the target .md file
 		const file: TFile | null = vault.getAbstractFileByPath('Data/' + fileName) as TFile;
@@ -111,7 +143,15 @@ export default class MyPlugin extends Plugin {
 		}
 		else {
 			console.error(`File not found: ${fileName}`);
+			new Notice(`File not found: ${fileName}`);
 		}
+	}
+
+	async selectFactor(){
+		new FactorModal(this.app, (result) => {
+			this.readMdFile(result);
+		}
+			).open();
 	}
 
 	onunload() {

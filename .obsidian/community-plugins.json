@@ -1,5 +1,5 @@
 [
   "sample-plugin",
-  "obsidian-plugin",
-  "hot-reload"
+  "hot-reload",
+  "obsidian-plugin"
 ]

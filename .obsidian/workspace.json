@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Data/Bathroom.md",
+                "file": "Data/Hospital.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Data/Bathroom.md",
+                "file": "Data/Hospital.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Data/Bathroom.md",
+                "file": "Data/Hospital.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Data/Bathroom.md"
+                "file": "Data/Hospital.md"
               }
             }
           }
@@ -142,11 +142,16 @@
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false
+      "command-palette:Open command palette": false,
+      "obsidian-plugin:Greet": false
     }
   },
   "active": "4fbd30f61c49de0f",
   "lastOpenFiles": [
+    "Data/Church.md",
+    "Data/Bathroom.md",
+    "Data/Bank.md",
+    "Data/Hospital.md",
     "README.md",
     "Dummy Folder/Dummy File.md",
     "Dummy Folder"
