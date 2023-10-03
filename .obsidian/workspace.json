@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "eb3e58a807b00b2b",
+        "id": "56961397014af05a",
         "type": "tabs",
         "children": [
           {
-            "id": "4fbd30f61c49de0f",
+            "id": "7684fc65c28083fa",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Data/Hospital.md",
+                "file": "Data/Calvin Chapel.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Data/Hospital.md",
+                "file": "Data/Calvin Chapel.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Data/Hospital.md",
+                "file": "Data/Calvin Chapel.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Data/Hospital.md"
+                "file": "Data/Calvin Chapel.md"
               }
             }
           }
@@ -143,15 +143,18 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-plugin:Greet": false
+      "obsidian-plugin:Greet": false,
+      "obsidian-map-view:Open map view": false
     }
   },
-  "active": "4fbd30f61c49de0f",
+  "active": "7684fc65c28083fa",
   "lastOpenFiles": [
-    "Data/Church.md",
+    "Data/Calvin Chapel.md",
+    "Data/Hospital.md",
+    "Data/Calvin University Chapel.md",
+    "Location added on 2023-10-03T16-39.md",
     "Data/Bathroom.md",
     "Data/Bank.md",
-    "Data/Hospital.md",
     "README.md",
     "Dummy Folder/Dummy File.md",
     "Dummy Folder"
