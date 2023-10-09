@@ -4,13 +4,21 @@
     "type": "split",
     "children": [
       {
+        "id": "56961397014af05a",
         "id": "7e6084b7f7ba65e0",
         "type": "tabs",
         "children": [
           {
+            "id": "7684fc65c28083fa",
             "id": "1f9c6e2dab4e9da7",
             "type": "leaf",
             "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Data/Calvin Chapel.md",
+                "mode": "source",
+                "source": false
+              }
               "type": "empty",
               "state": {}
             }
@@ -81,6 +89,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Data/Calvin Chapel.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +106,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Data/Calvin Chapel.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,6 +128,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
+              "state": {
+                "file": "Data/Calvin Chapel.md"
+              }
               "state": {}
             }
           }
@@ -135,17 +148,21 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-plugin:Greet": false
+      "obsidian-plugin:Greet": false,
+      "obsidian-map-view:Open map view": false
     }
   },
+  "active": "7684fc65c28083fa",
   "active": "1f9c6e2dab4e9da7",
   "lastOpenFiles": [
-    "Data/Church.md",
+    "Data/Calvin Chapel.md",
+    "Data/Hospital.md",
+    "Data/Calvin University Chapel.md",
+    "Location added on 2023-10-03T16-39.md",
     "README.md",
     "Data/Hospital.md",
     "Data/Bathroom.md",
     "Data/Bank.md",
-    "Dummy Folder/Dummy File.md",
-    "Dummy Folder"
+    "README.md"
   ]
 }
