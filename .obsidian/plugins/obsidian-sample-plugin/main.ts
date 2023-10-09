@@ -15,23 +15,23 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 export class FactorModal extends Modal {
 	result: string;
 	onSubmit: (result: string) => void;
-	
+
 	constructor(app: App, onSubmit: (result: string) => void) {
-	  super(app);
-	  this.onSubmit = onSubmit;
+		super(app);
+		this.onSubmit = onSubmit;
 	}
-  
+
 	onOpen() {
 		const { contentEl } = this;
 		const files = this.app.vault.getMarkdownFiles();
 
 		// Get all files in directory
-		let list : Record<string, string> = {}; 
+		let list: Record<string, string> = {};
 		for (let i = 0; i < files.length; i++) {
 			list[i] = files[i].path, "test";
 		}
-	  
-		contentEl.createEl("h1",{text: "Select Factor"});
+
+		contentEl.createEl("h1", { text: "Select Factor" });
 
 		//  new Setting(contentEl)
 		// 	.setName("")
@@ -47,9 +47,9 @@ export class FactorModal extends Modal {
 					.addOption("Choose", "Choose File")
 					.addOptions(list)
 					.onChange((value) => {
-					 	this.result = list[value];
-					 })
-					);
+						this.result = list[value];
+					})
+			);
 
 		// Submit Button
 		new Setting(contentEl)
@@ -63,10 +63,10 @@ export class FactorModal extends Modal {
 					}));
 
 	}
-  
+
 	onClose() {
-	  let { contentEl } = this;
-	  contentEl.empty();
+		let { contentEl } = this;
+		contentEl.empty();
 	}
 }
 
@@ -77,7 +77,7 @@ export default class MyPlugin extends Plugin {
 		await this.loadSettings();
 
 		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('search', 'Greet', (evt: MouseEvent) => {
+		const ribbonIconEl = this.addRibbonIcon('search', 'Search File', (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
 			this.selectFactor();
 		});
@@ -169,11 +169,11 @@ export default class MyPlugin extends Plugin {
 		}
 	}
 
-	async selectFactor(){
+	async selectFactor() {
 		new FactorModal(this.app, (result) => {
 			this.readMdFile(result);
 		}
-			).open();
+		).open();
 	}
 
 	onunload() {
