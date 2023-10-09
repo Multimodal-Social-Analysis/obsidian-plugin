@@ -11,6 +11,7 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 	mySetting: 'default'
 }
 
+// Modal to display factors from Obsidian files
 export class FactorModal extends Modal {
 	result: string;
 	onSubmit: (result: string) => void;
@@ -22,16 +23,35 @@ export class FactorModal extends Modal {
   
 	onOpen() {
 		const { contentEl } = this;
+		const files = this.app.vault.getMarkdownFiles();
+
+		// Get all files in directory
+		let list : Record<string, string> = {}; 
+		for (let i = 0; i < files.length; i++) {
+			list[i] = files[i].path, "test";
+		}
 	  
 		contentEl.createEl("h1",{text: "Select Factor"});
 
-		 new Setting(contentEl)
-			.setName("")
-			.addText((text) =>
-				text.onChange((value) => {
-					this.result = value
-			}));
+		//  new Setting(contentEl)
+		// 	.setName("")
+		// 	.addText((text) =>
+		// 		text.onChange((value) => {
+		// 			this.result = value
+		// 	}));
 
+		// Dropdown Menu
+		new Setting(contentEl)
+			.addDropdown((drp) =>
+				drp
+					.addOption("Choose", "Choose File")
+					.addOptions(list)
+					.onChange((value) => {
+					 	this.result = list[value];
+					 })
+					);
+
+		// Submit Button
 		new Setting(contentEl)
 			.addButton((btn) =>
 				btn
@@ -123,10 +143,12 @@ export default class MyPlugin extends Plugin {
 		console.log("Reading file.")
 
 		const vault = this.app.vault;
-		const fileName = f + '.md';
+		//const fileName = f + '.md';
+		const fileName = f;
 
 		// Create a TFile object for the target .md file
-		const file: TFile | null = vault.getAbstractFileByPath('Data/' + fileName) as TFile;
+		//const file: TFile | null = vault.getAbstractFileByPath('Data/' + fileName) as TFile;
+		const file: TFile | null = vault.getAbstractFileByPath(fileName) as TFile;
 
 		// If file exist
 		if (file) {
