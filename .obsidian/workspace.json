@@ -4,12 +4,10 @@
     "type": "split",
     "children": [
       {
-        "id": "56961397014af05a",
         "id": "7e6084b7f7ba65e0",
         "type": "tabs",
         "children": [
           {
-            "id": "7684fc65c28083fa",
             "id": "1f9c6e2dab4e9da7",
             "type": "leaf",
             "state": {
@@ -19,8 +17,6 @@
                 "mode": "source",
                 "source": false
               }
-              "type": "empty",
-              "state": {}
             }
           }
         ]
@@ -131,7 +127,6 @@
               "state": {
                 "file": "Data/Calvin Chapel.md"
               }
-              "state": {}
             }
           }
         ]
@@ -142,26 +137,24 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "obsidian-plugin:Search File": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-plugin:Greet": false,
       "obsidian-map-view:Open map view": false
     }
   },
-  "active": "7684fc65c28083fa",
   "active": "1f9c6e2dab4e9da7",
   "lastOpenFiles": [
-    "Data/Calvin Chapel.md",
     "Data/Hospital.md",
+    "Data/Calvin Chapel.md",
+    "Data/Bathroom.md",
     "Data/Calvin University Chapel.md",
     "Location added on 2023-10-03T16-39.md",
     "README.md",
-    "Data/Hospital.md",
-    "Data/Bathroom.md",
     "Data/Bank.md",
     "README.md"
   ]
