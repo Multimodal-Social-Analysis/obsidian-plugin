@@ -26,7 +26,7 @@ export class FactorModal extends Modal {
 		const files = this.app.vault.getMarkdownFiles();
 
 		// Get all files in directory
-		let list: Record<string, string> = {};
+		const list: Record<string, string> = {};
 		for (let i = 0; i < files.length; i++) {
 			list[i] = files[i].path, "test";
 		}
@@ -65,7 +65,7 @@ export class FactorModal extends Modal {
 	}
 
 	onClose() {
-		let { contentEl } = this;
+		const { contentEl } = this;
 		contentEl.empty();
 	}
 }
