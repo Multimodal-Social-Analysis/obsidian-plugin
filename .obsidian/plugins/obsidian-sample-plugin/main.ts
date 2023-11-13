@@ -169,9 +169,46 @@ export default class MyPlugin extends Plugin {
 		}
 	}
 
+	async readMatrix(f: string) {
+		console.log("Reading matrix.");
+
+		const vault = this.app.vault;
+		const fileName = f;
+
+		// Create a TFile object for the target .md file
+		const file: TFile | null = vault.getAbstractFileByPath(fileName) as TFile;
+
+		// If file exist
+		if (file) {
+			try {
+				// Read file from vault
+				const fileContent = await vault.read(file);
+
+				// Number can only be from 1-5
+				// Use a regular expression to remove non-numeric characters
+				const numbersString = fileContent.replace(/[^0-9.]/g, '');
+
+				// Convert the string of numbers to an array of actual numbers
+				const numbersArray = numbersString.split('.').map(Number);
+				const digitArray = Array.from(numbersArray.toString(), Number);
+
+				new Notice(numbersString);
+
+				console.log(digitArray);
+			}
+			catch (error) {
+				console.error(error);
+			}
+		}
+		else {
+			console.error(`File not found: ${fileName}`);
+			new Notice(`File not found: ${fileName}`);
+		}
+	}
+
 	async selectFactor() {
 		new FactorModal(this.app, (result) => {
-			this.readMdFile(result);
+			this.readMatrix(result);
 		}
 		).open();
 	}
