@@ -6,3 +6,9 @@ $$
 \end{matrix}
 $$
 
+$$
+\begin{matrix}
+1 & 1 \\
+1 & 1
+\end{matrix}
+$$

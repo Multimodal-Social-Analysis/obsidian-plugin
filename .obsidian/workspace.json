@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "7e6084b7f7ba65e0",
+        "id": "1cfead88193fb04a",
         "type": "tabs",
         "children": [
           {
-            "id": "ae985610c50c3fda",
+            "id": "801adf09e855e38d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Matrix testing.md",
+                "file": "Data/Bank.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Matrix testing.md",
+                "file": "Data/Bank.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Matrix testing.md",
+                "file": "Data/Bank.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Matrix testing.md"
+                "file": "Data/Bank.md"
               }
             }
           }
@@ -133,10 +133,11 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
+      "obsidian-plugin:Obsidian Matrix Test": false,
       "obsidian-plugin:Search File": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
@@ -144,17 +145,28 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "obsidian-map-view:Open map view": false,
-      "obsidian-matrix:Obsidian Matrix": false
+      "obsidian-map-view:Open map view": false
     }
   },
-  "active": "ae985610c50c3fda",
+  "active": "801adf09e855e38d",
   "lastOpenFiles": [
+    "Data/Bathroom.md",
     "Data/Bank.md",
     "Matrix testing.md",
+    "obsidian-matrix/versions.json",
+    "obsidian-matrix/version-bump.mjs",
+    "obsidian-matrix/usage.gif",
+    "obsidian-matrix/tsconfig.json",
+    "obsidian-matrix/styles.css",
+    "obsidian-matrix/settings.ts",
+    "obsidian-matrix/README.md",
+    "obsidian-matrix/package.json",
+    "obsidian-matrix/package-lock.json",
+    "obsidian-matrix/manifest.json",
+    "obsidian-matrix/LICENSE",
+    "obsidian-matrix/esbuild.config.mjs",
     "Data/Hospital.md",
     "Data/Calvin Chapel.md",
-    "Data/Bathroom.md",
     "Data/README.md",
     "Data/Calvin University Chapel.md",
     "Location added on 2023-10-03T16-39.md"
