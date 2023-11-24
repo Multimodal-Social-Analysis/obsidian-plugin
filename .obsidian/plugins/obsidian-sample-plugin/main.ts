@@ -22,7 +22,6 @@ const DEFAULT_SETTINGS: Partial<MatrixPluginSettings> = {
 	prevY: null,
 };
 
-
 export default class MyPlugin extends Plugin {
 	// settings: MyPluginSettings;
 	settings: MatrixPluginSettings;
