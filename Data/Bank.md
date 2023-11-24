@@ -1,4 +1,3 @@
-#money
 %%Brandon%%
-This is a bank.
+This is a bank #money.
 

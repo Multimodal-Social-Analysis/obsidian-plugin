@@ -1,8 +1,17 @@
-/*
+.parentDiv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.matrixDiv {
+  display: grid;
+  gap: 5px;
+}
 
-If your plugin does not need CSS, delete this file.
+.settingsDiv {}
 
-*/
+.matrixInput {
+  width: 50px;
+  text-align: center;
+}
