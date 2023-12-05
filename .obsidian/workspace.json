@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "1cfead88193fb04a",
+        "id": "7b731df961f664ee",
         "type": "tabs",
         "children": [
           {
-            "id": "801adf09e855e38d",
+            "id": "be99eff9b93756fc",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Data/Bank.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -85,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Data/Bank.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Data/Bank.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -115,7 +109,7 @@
               "type": "tag",
               "state": {
                 "sortOrder": "frequency",
-                "useHierarchy": true
+                "useHierarchy": false
               }
             }
           },
@@ -125,15 +119,17 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Data/Bank.md"
+                "file": "Data/Factors.md"
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -148,11 +144,17 @@
       "obsidian-map-view:Open map view": false
     }
   },
-  "active": "801adf09e855e38d",
+  "active": "cec40ee644ff1191",
   "lastOpenFiles": [
+    "Data/Factors.md",
     "Data/Bathroom.md",
+    "Data/Hospital.md",
     "Data/Bank.md",
+    "Data/Calvin Chapel.md",
+    "Data/README.md",
+    "Untitled.md",
     "Matrix testing.md",
+    "Data/test.md",
     "obsidian-matrix/versions.json",
     "obsidian-matrix/version-bump.mjs",
     "obsidian-matrix/usage.gif",
@@ -165,9 +167,6 @@
     "obsidian-matrix/manifest.json",
     "obsidian-matrix/LICENSE",
     "obsidian-matrix/esbuild.config.mjs",
-    "Data/Hospital.md",
-    "Data/Calvin Chapel.md",
-    "Data/README.md",
     "Data/Calvin University Chapel.md",
     "Location added on 2023-10-03T16-39.md"
   ]

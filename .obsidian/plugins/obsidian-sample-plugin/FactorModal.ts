@@ -2,52 +2,43 @@ import { App, Modal, Setting, } from 'obsidian';
 
 // Modal to display factors from Obsidian files
 export class FactorModal extends Modal {
-  result: string;
-  choice: string = "File";
-  onSubmit: (result: string, choice: string) => void;
+	result: Record<string,string>;
+	choice: string = "File";
+	onSubmit: (result: Record<string,string>, choice: string) => void;
+	
+	constructor(app: App, onSubmit: (result: Record<string, string>, choice: string) => void) {
+	  super(app);
+	  this.onSubmit = onSubmit;
+	}
+  
+	onOpen() {
+		const { contentEl } = this;
+		const files = this.app.vault.getMarkdownFiles();
+		const choice: Record<string, string> = { "File": "File", "Matrix": "Matrix" };
 
-  constructor(app: App, onSubmit: (result: string, choice: string) => void) {
-    super(app);
-    this.onSubmit = onSubmit;
-  }
+		// Get all files in directory
+		let list : Record<string, string> = {}; 
+		for (let i = 0; i < files.length; i++) {
+			list[i] = files[i].path, "test";
+		}
 
-  onOpen() {
-    const { contentEl } = this;
-    const files = this.app.vault.getMarkdownFiles();
+		contentEl.createEl("h1", { text: "Data Analysis" });
 
-    const choice: Record<string, string> = { "File": "File", "Matrix": "Matrix" };
+		new Setting(contentEl)
+		.addButton((btn) =>
+			btn
+				.setButtonText("Create Factors File")
+				.setCta()
+				.onClick(() => {
+					this.close();
+					this.onSubmit(list, this.choice);
+				}));
 
-    // Get all files in directory
-    const list: Record<string, string> = {};
-    for (let i = 0; i < files.length; i++) {
-      list[i] = files[i].path, "test";
-    }
-
-    contentEl.createEl("h1", { text: "Simple Analysis" });
-
-    // new Setting(contentEl)
-    //   .setName("")
-    //   .addText((text) =>
-    //     text.onChange((value) => {
-    //       this.result = value
-    //     }));
-
-    // Dropdown Menu
+		// Choose read matrix or md file
     new Setting(contentEl)
       .addDropdown((drp) =>
         drp
-          .addOption("Choose", "Choose File")
-          .addOptions(list)
-          .onChange((value) => {
-            this.result = list[value];
-          })
-      );
-
-    // Choose read matrix or md file
-    new Setting(contentEl)
-      .addDropdown((drp) =>
-        drp
-          .addOption("Choose", "Matrix or File")
+          .addOption("Choose", "Choose")
           .addOptions(choice)
           .onChange((value) => {
             this.choice = choice[value];
@@ -62,13 +53,16 @@ export class FactorModal extends Modal {
           .setCta()
           .onClick(() => {
             this.close();
-            this.onSubmit(this.result, this.choice);
+            this.onSubmit(list, this.choice);
           }));
 
-  }
 
-  onClose() {
-    const { contentEl } = this;
-    contentEl.empty();
-  }
+	  //this.result = list;
+		//this.onSubmit(list);
+	}
+  
+	onClose() {
+	  let { contentEl } = this;
+	  contentEl.empty();
+	}
 }
