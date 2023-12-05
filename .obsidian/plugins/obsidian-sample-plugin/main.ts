@@ -4,6 +4,8 @@ import CreationModal from "./CreationModal";
 import { MatrixSettingTab } from "./settings";
 import { FactorModal } from 'FactorModal';
 
+declare var count: number;
+
 interface MatrixPluginSettings {
 	rememberMatrixType: boolean; // Whether to save matrix type
 	rememberMatrixDimensions: boolean; // Whether to save matrix dimensions
@@ -125,13 +127,95 @@ export default class MyPlugin extends Plugin {
 
 	}
 
+	async readMdFile2(f: string) {
+		const vault = this.app.vault;
+		//const fileName = f + '.md';
+		const fileName = f;
+
+		// Create a TFile object for the target .md file
+		//const file: TFile | null = vault.getAbstractFileByPath('Data/' + fileName) as TFile;
+		const file: TFile | null = vault.getAbstractFileByPath(fileName) as TFile; 
+
+		// Read file from vault
+		const fileContent = await vault.read(file);
+
+		//Adds to New File from "fileContent"
+		const factorFilePath: TFile | null = vault.getAbstractFileByPath("Data/Factors.md") as TFile; 
+		//vault.append(factorFilePath, ("[[" + fileName + "]]" + "\n"));
+		
+		//vault.append(factorFilePath, ("[["));
+		var test = false;
+		var tagExists = false;
+		var tagDone = false;
+		for (let i = 0; i < fileContent.length; i++){
+			//Check if the next char creates a tag "possibility"
+			//if(fileContent[i+1] == "#"){
+			//	vault.append(factorFilePath, "\n");
+			//}
+			
+			if(fileContent[i] == "#"){
+				//if (firstTag == true){
+				//	vault.append(factorFilePath, "# ");
+					//firstTag = false;
+				//}
+				//if (firstTag = true) {
+				//	vault.append(factorFilePath, "\n");
+				//}
+
+				test = true;
+				vault.append(factorFilePath, "\n");
+				vault.append(factorFilePath, "# ");
+				continue;
+			}
+			if((fileContent[i] == " " || fileContent[i] == "\n") && test == true){
+				test = false
+				tagDone = true;
+			}			
+			if(test == true){
+				tagExists = true;
+				vault.append(factorFilePath, fileContent[i]);
+			}
+			if (tagDone == true && tagExists == true){
+				vault.append(factorFilePath, "\n");
+				vault.append(factorFilePath, ("[[" + fileName + "]]" + "\n"));
+				vault.append(factorFilePath, "\n");
+				tagDone = false;
+				tagExists = false;
+			}
+		}
+		//if (tagExists == true)
+		//	vault.append(factorFilePath, "\n");
+	}
+
+	// async selectFactor(){
+	// 	new FactorModal(this.app, (result) => {
+	// 		//create a new file to hold the factors
+	// 		const vault = this.app.vault;
+	// 		vault.create("../obsidian-plugin/Data/Factors.md", "");
+			
+	// 		// Loop to read every file in the "Data" folder
+	// 		for (let i = 0; i < Object.keys(result).length; i++) {
+	// 			this.readMdFile2(result[i]);
+	// 			//vault.process(factorFilePath, (string) => fileName);
+	// 		}
+	// 	}).open();
+	// }
+
 	async selectFactor() {
 		new FactorModal(this.app, (result, choice) => {
 			if (choice == "File") {
-				this.readMdFile(result);
+				//create a new file to hold the factors
+				const vault = this.app.vault;
+				vault.create("../obsidian-plugin/Data/Factors.md", "");
+				
+				// Loop to read every file in the "Data" folder
+				for (let i = 0; i < Object.keys(result).length; i++) {
+					this.readMdFile2(result[i]);
+					//vault.process(factorFilePath, (string) => fileName);
+				}
 			}
 			else {
-				this.readMatrix(result);
+				//this.readMatrix(result);
 			}
 		}
 		).open();

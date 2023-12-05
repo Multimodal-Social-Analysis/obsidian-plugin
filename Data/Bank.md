@@ -1,3 +1,3 @@
 %%Brandon%%
-This is a bank #money.
+This is a bank #money
 
