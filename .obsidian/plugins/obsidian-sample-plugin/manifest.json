@@ -1,10 +1,10 @@
 {
-	"id": "obsidian-plugin",
+	"id": "Social-Analysis-plugin",
 	"name": "Multimodal Social Analysis",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "This is a sample plugin for Obsidian. This plugin demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
+	"description": "This is an Obsidian plugin for Social Analysis.",
+	"author": "Calvin Senior Project 2023-2024 by Benedicto Elpidius and Antonio Sepulveda",
 	"authorUrl": "https://obsidian.md",
 	"fundingUrl": "https://obsidian.md/pricing",
 	"isDesktopOnly": false

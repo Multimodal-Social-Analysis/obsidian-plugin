@@ -10,11 +10,11 @@ import {
 	TFile
 } from 'obsidian';
 import * as fs from 'fs';
-import CreationModal from "./CreationModal";
-import { SettingTab } from "./settings";
-import { FactorModal } from 'FactorModal';
-import { ChatModal, ImageModal, PromptModal, SpeechModal } from "./ai_assistant_modal";
-import { OpenAIAssistant } from "./openai_api";
+import { SettingTab } from "./settingsTab";
+import MatrixModal from "./src/modals/MatrixModal";
+import { FactorModal } from 'src/modals/FactorModal';
+import { ChatModal, ImageModal, PromptModal, SpeechModal } from "./src/modals/ai_assistant_modal";
+import { OpenAIAssistant } from "./src/AI/openai_api";
 
 declare var count: number;
 
@@ -93,6 +93,7 @@ export default class MyPlugin extends Plugin {
 
 		this.build_api();
 
+		/* AI Plugin */
 		// AI Chat Mode
 		this.addCommand({
 			id: "chat-mode",
@@ -181,7 +182,8 @@ export default class MyPlugin extends Plugin {
 			},
 		});
 
-		// Read selected file
+		/* Factors Plugin */
+		// Read file
 		const read = this.addRibbonIcon('search', 'Search File', (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
 			this.selectFactor();
@@ -190,9 +192,19 @@ export default class MyPlugin extends Plugin {
 		// Perform additional things with the ribbon
 		read.addClass('my-plugin-ribbon-class');
 
+		this.addCommand({
+			id: "obsidian-factors-shortcut",
+			name: "Search File",
+			hotkeys: [],
+			callback: () => {
+				this.selectFactor();
+			},
+		});
+
+		/* Matrix Plugin */
 		// Create Matrix
 		this.addRibbonIcon("pane-layout", "Obsidian Matrix Test", () => {
-			new CreationModal(this.app, this).open();
+			new MatrixModal(this.app, this).open();
 		});
 
 		this.addCommand({
@@ -200,7 +212,7 @@ export default class MyPlugin extends Plugin {
 			name: "Open Obsidian Matrix menu",
 			hotkeys: [],
 			callback: () => {
-				new CreationModal(this.app, this).open();
+				new MatrixModal(this.app, this).open();
 			},
 		});
 
