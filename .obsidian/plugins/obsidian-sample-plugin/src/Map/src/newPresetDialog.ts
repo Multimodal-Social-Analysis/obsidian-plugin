@@ -1,20 +1,20 @@
 import { Modal, App, TextComponent, ButtonComponent } from 'obsidian';
 
-import { PluginSettings } from 'src/settings';
-import { MapState } from 'src/mapState';
-import MapViewPlugin from 'src/main';
+import { Settings } from 'settingsTab';
+import { MapState } from 'src/Map/src/mapState';
+import MyPlugin from 'main';
 
 export class NewPresetDialog extends Modal {
-    private plugin: MapViewPlugin;
-    private settings: PluginSettings;
+    private plugin: MyPlugin;
+    private settings: Settings;
     private stateToSave: MapState;
     private callback: (index: string) => void;
 
     constructor(
         app: App,
         stateToSave: MapState,
-        plugin: MapViewPlugin,
-        settings: PluginSettings,
+        plugin: MyPlugin,
+        settings: Settings,
         callback: (index: string) => void
     ) {
         super(app);

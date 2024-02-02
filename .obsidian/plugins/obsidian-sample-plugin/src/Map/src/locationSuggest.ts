@@ -8,11 +8,11 @@ import {
     EditorSuggestTriggerInfo,
     EditorSuggestContext,
 } from 'obsidian';
-import { GeoSearcher } from 'src/geosearch';
+import { GeoSearcher } from 'src/Map/src/geosearch';
 
-import * as utils from 'src/utils';
-import { PluginSettings } from 'src/settings';
-import { GeoSearchResult } from 'src/geosearch';
+import * as utils from 'src/Map/src/utils';
+import { Settings } from 'settingsTab';
+import { GeoSearchResult } from 'src/Map/src/geosearch';
 
 class SuggestInfo extends GeoSearchResult {
     context: EditorSuggestContext;
@@ -22,10 +22,10 @@ export class LocationSuggest extends EditorSuggest<SuggestInfo> {
     private cursorInsideGeolinkFinder = /\[(.*?)\]\(geo:.*?\)/g;
     private lastSearchTime = 0;
     private delayInMs = 250;
-    private settings: PluginSettings;
+    private settings: Settings;
     private searcher: GeoSearcher;
 
-    constructor(app: App, settings: PluginSettings) {
+    constructor(app: App, settings: Settings) {
         super(app);
         this.settings = settings;
         this.searcher = new GeoSearcher(app, settings);

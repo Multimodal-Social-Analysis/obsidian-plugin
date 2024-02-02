@@ -2,25 +2,25 @@ import { Editor, MenuItem, Menu, App, TFile, TAbstractFile } from 'obsidian';
 
 import * as leaflet from 'leaflet';
 
-import * as settings from 'src/settings';
-import * as utils from 'src/utils';
-import { LocationSearchDialog } from 'src/locationSearchDialog';
-import { UrlConvertor } from 'src/urlConvertor';
-import { LocationSuggest } from 'src/locationSuggest';
-import { MapState } from 'src/mapState';
-import MapViewPlugin from 'src/main';
-import { MapContainer } from 'src/mapContainer';
-import { ImportDialog } from 'src/importDialog';
-import { PluginSettings } from 'src/settings';
-import { FileMarker } from 'src/markers';
+import * as settings from 'settingsTab';
+import * as utils from 'src/Map/src/utils';
+import { LocationSearchDialog } from 'src/Map/src/locationSearchDialog';
+import { UrlConvertor } from 'src/Map/src/urlConvertor';
+import { LocationSuggest } from 'src/Map/src/locationSuggest';
+import { MapState } from 'src/Map/src/mapState';
+import MyPlugin from 'main';
+import { MapContainer } from 'src/Map/src/mapContainer';
+import { ImportDialog } from 'src/Map/src/importDialog';
+import { Settings } from 'settingsTab';
+import { FileMarker } from 'src/Map/src/markers';
 
 export function addShowOnMap(
     menu: Menu,
     geolocation: leaflet.LatLng,
     file: TAbstractFile,
     editorLine: number,
-    plugin: MapViewPlugin,
-    settings: PluginSettings
+    plugin: MyPlugin,
+    settings: Settings
 ) {
     if (geolocation) {
         menu.addItem((item: MenuItem) => {
@@ -44,7 +44,7 @@ export function addShowOnMap(
 export function addOpenWith(
     menu: Menu,
     geolocation: leaflet.LatLng,
-    settings: settings.PluginSettings
+    settings: settings.Settings
 ) {
     if (geolocation) {
         menu.addItem((item: MenuItem) => {
@@ -69,7 +69,7 @@ export function addOpenWith(
 export function populateOpenInItems(
     menu: Menu,
     location: leaflet.LatLng,
-    settings: settings.PluginSettings
+    settings: settings.Settings
 ) {
     for (let setting of settings.openIn) {
         if (!setting.name || !setting.urlPattern) continue;
@@ -90,9 +90,9 @@ export function populateOpenInItems(
 export function addGeolocationToNote(
     menu: Menu,
     app: App,
-    plugin: MapViewPlugin,
+    plugin: MyPlugin,
     editor: Editor,
-    settings: settings.PluginSettings
+    settings: settings.Settings
 ) {
     menu.addItem((item: MenuItem) => {
         item.setTitle('Add geolocation (front matter)');
@@ -115,8 +115,8 @@ export function addGeolocationToNote(
 export function addFocusNoteInMapView(
     menu: Menu,
     file: TFile,
-    settings: settings.PluginSettings,
-    plugin: MapViewPlugin
+    settings: settings.Settings,
+    plugin: MyPlugin
 ) {
     menu.addItem((item: MenuItem) => {
         const fileName = utils.trimmedFileName(file);
@@ -141,7 +141,7 @@ export function addUrlConversionItems(
     editor: Editor,
     suggestor: LocationSuggest,
     urlConvertor: UrlConvertor,
-    settings: PluginSettings
+    settings: Settings
 ) {
     if (editor.getSelection()) {
         // If there is text selected, add a menu item to convert it to coordinates using geosearch
@@ -184,7 +184,7 @@ export function addUrlConversionItems(
     });
 }
 
-export function addEmbed(menu: Menu, plugin: MapViewPlugin, editor: Editor) {
+export function addEmbed(menu: Menu, plugin: MyPlugin, editor: Editor) {
     menu.addItem((item: MenuItem) => {
         item.setTitle('Embed a Map View');
         item.setSection('mapview');
@@ -199,7 +199,7 @@ export function addNewNoteItems(
     menu: Menu,
     geolocation: leaflet.LatLng,
     mapContainer: MapContainer,
-    settings: settings.PluginSettings,
+    settings: settings.Settings,
     app: App
 ) {
     const locationString = `${geolocation.lat},${geolocation.lng}`;
@@ -288,13 +288,12 @@ export function addFocusLinesInMapView(
     fromLine: number,
     toLine: number,
     numLocations: number,
-    plugin: MapViewPlugin,
-    settings: settings.PluginSettings
+    plugin: MyPlugin,
+    settings: settings.Settings
 ) {
     menu.addItem((item: MenuItem) => {
         item.setTitle(
-            `Focus ${numLocations} ${
-                numLocations > 1 ? 'geolocations' : 'geolocation'
+            `Focus ${numLocations} ${numLocations > 1 ? 'geolocations' : 'geolocation'
             } in Map View`
         );
         item.setIcon('globe');
@@ -316,8 +315,8 @@ export function addImport(
     menu: Menu,
     editor: Editor,
     app: App,
-    plugin: MapViewPlugin,
-    settings: settings.PluginSettings
+    plugin: MyPlugin,
+    settings: settings.Settings
 ) {
     menu.addItem((item: MenuItem) => {
         // TODO: this is an unfinished corner of the code, currently bypassed by default
@@ -340,7 +339,7 @@ export function populateOpenNote(
     mapContainer: MapContainer,
     fileMarker: FileMarker,
     menu: Menu,
-    settings: PluginSettings
+    settings: Settings
 ) {
     menu.addItem((item: MenuItem) => {
         item.setTitle('Open note');
@@ -384,7 +383,7 @@ export function populateRouting(
     mapContainer: MapContainer,
     geolocation: leaflet.LatLng,
     menu: Menu,
-    settings: settings.PluginSettings
+    settings: settings.Settings
 ) {
     if (geolocation) {
         menu.addItem((item: MenuItem) => {

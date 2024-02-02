@@ -2,8 +2,8 @@ import { App, Editor, EditorPosition, request } from 'obsidian';
 import * as querystring from 'query-string';
 
 import * as leaflet from 'leaflet';
-import { PluginSettings, UrlParsingRule } from 'src/settings';
-import * as utils from 'src/utils';
+import { Settings, UrlParsingRule } from 'settingsTab';
+import * as utils from 'src/Map/src/utils';
 
 export type ParsedLocation = {
     location: leaflet.LatLng;
@@ -15,9 +15,9 @@ export type ParsedLocation = {
 
 /** A class to convert a string (usually a URL) into geolocation format */
 export class UrlConvertor {
-    private settings: PluginSettings;
+    private settings: Settings;
 
-    constructor(app: App, settings: PluginSettings) {
+    constructor(app: App, settings: Settings) {
         this.settings = settings;
     }
 
@@ -63,19 +63,19 @@ export class UrlConvertor {
                             location:
                                 rule.ruleType === 'latLng'
                                     ? new leaflet.LatLng(
-                                          parseFloat(result[1]),
-                                          parseFloat(result[2])
-                                      )
+                                        parseFloat(result[1]),
+                                        parseFloat(result[2])
+                                    )
                                     : new leaflet.LatLng(
-                                          parseFloat(result[2]),
-                                          parseFloat(result[1])
-                                      ),
+                                        parseFloat(result[2]),
+                                        parseFloat(result[1])
+                                    ),
                             index: result.index,
                             matchLength: result[0].length,
                             ruleName: rule.name,
                         };
                     }
-                } catch (e) {}
+                } catch (e) { }
             }
         }
         return null;
@@ -123,7 +123,7 @@ export class UrlConvertor {
 
     async getGeolocationFromGoogleLink(
         url: string,
-        settings: PluginSettings
+        settings: Settings
     ): Promise<leaflet.LatLng> {
         const content = await request({ url: url });
         if (this.settings.debug) console.log('Google link: searching url', url);

@@ -1,17 +1,17 @@
 import { TFile, WorkspaceLeaf } from 'obsidian';
 
-import { PluginSettings } from 'src/settings';
-import MapViewPlugin from 'src/main';
+import { Settings } from 'settingsTab';
+import MyPlugin from 'main';
 
-import { BaseMapView } from 'src/baseMapView';
-import { ViewSettings } from 'src/mapContainer';
-import { MapState } from 'src/mapState';
+import { BaseMapView } from 'src/Map/src/baseMapView';
+import { ViewSettings } from 'src/Map/src/mapContainer';
+import { MapState } from 'src/Map/src/mapState';
 
 export class MiniMapView extends BaseMapView {
     constructor(
         leaf: WorkspaceLeaf,
-        settings: PluginSettings,
-        plugin: MapViewPlugin
+        settings: Settings,
+        plugin: MyPlugin
     ) {
         const viewSettings: ViewSettings = {
             showZoomButtons: true,

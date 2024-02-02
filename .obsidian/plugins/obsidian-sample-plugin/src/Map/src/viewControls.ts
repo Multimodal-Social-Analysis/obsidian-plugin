@@ -7,32 +7,32 @@ import {
     Notice,
     getIcon,
 } from 'obsidian';
-import { askForLocation } from 'src/realTimeLocation';
+import { askForLocation } from 'src/Map/src/realTimeLocation';
 
 // A global ID to differentiate instances of the controls for the purpose of label creation
 let lastGlobalId = 0;
 
-import { PluginSettings, MapLightDark } from 'src/settings';
+import { Settings, MapLightDark } from 'settingsTab';
 
-import { MapState, areStatesEqual, mergeStates } from 'src/mapState';
-import { MapContainer, ViewSettings } from 'src/mapContainer';
-import { NewPresetDialog } from 'src/newPresetDialog';
-import MapViewPlugin from 'src/main';
-import { QuerySuggest } from 'src/query';
-import { LocationSearchDialog, SuggestInfo } from 'src/locationSearchDialog';
-import { FileMarker, MarkersMap } from 'src/markers';
-import * as utils from 'src/utils';
-import * as consts from 'src/consts';
+import { MapState, areStatesEqual, mergeStates } from 'src/Map/src/mapState';
+import { MapContainer, ViewSettings } from 'src/Map/src/mapContainer';
+import { NewPresetDialog } from 'src/Map/src/newPresetDialog';
+import MyPlugin from 'main';
+import { QuerySuggest } from 'src/Map/src/query';
+import { LocationSearchDialog, SuggestInfo } from 'src/Map/src/locationSearchDialog';
+import { FileMarker, MarkersMap } from 'src/Map/src/markers';
+import * as utils from 'src/Map/src/utils';
+import * as consts from 'src/Map/src/consts';
 
 import * as leaflet from 'leaflet';
 
 export class ViewControls {
     private parentElement: HTMLElement;
-    private settings: PluginSettings;
+    private settings: Settings;
     private viewSettings: ViewSettings;
     private app: App;
     private view: MapContainer;
-    private plugin: MapViewPlugin;
+    private plugin: MyPlugin;
 
     public controlsDiv: HTMLDivElement;
     private queryBox: TextComponent;
@@ -55,11 +55,11 @@ export class ViewControls {
 
     constructor(
         parentElement: HTMLElement,
-        settings: PluginSettings,
+        settings: Settings,
         viewSettings: ViewSettings,
         app: App,
         view: MapContainer,
-        plugin: MapViewPlugin
+        plugin: MyPlugin
     ) {
         this.parentElement = parentElement;
         this.settings = settings;
@@ -549,8 +549,8 @@ export class ViewControls {
 export class SearchControl extends leaflet.Control {
     view: MapContainer;
     app: App;
-    plugin: MapViewPlugin;
-    settings: PluginSettings;
+    plugin: MyPlugin;
+    settings: Settings;
     searchButton: HTMLAnchorElement;
     clearButton: HTMLAnchorElement;
 
@@ -558,8 +558,8 @@ export class SearchControl extends leaflet.Control {
         options: any,
         view: MapContainer,
         app: App,
-        plugin: MapViewPlugin,
-        settings: PluginSettings
+        plugin: MyPlugin,
+        settings: Settings
     ) {
         super(options);
         this.view = view;
@@ -650,7 +650,7 @@ export class SearchControl extends leaflet.Control {
 export class RealTimeControl extends leaflet.Control {
     view: MapContainer;
     app: App;
-    settings: PluginSettings;
+    settings: Settings;
     locateButton: HTMLAnchorElement;
     clearButton: HTMLAnchorElement;
 
@@ -658,7 +658,7 @@ export class RealTimeControl extends leaflet.Control {
         options: any,
         view: MapContainer,
         app: App,
-        settings: PluginSettings
+        settings: Settings
     ) {
         super(options);
         this.view = view;
@@ -697,7 +697,7 @@ export class RealTimeControl extends leaflet.Control {
 export class LockControl extends leaflet.Control {
     view: MapContainer;
     app: App;
-    settings: PluginSettings;
+    settings: Settings;
     lockButton: HTMLAnchorElement;
     locked: boolean = false;
 
@@ -705,7 +705,7 @@ export class LockControl extends leaflet.Control {
         options: any,
         view: MapContainer,
         app: App,
-        settings: PluginSettings
+        settings: Settings
     ) {
         super(options);
         this.view = view;

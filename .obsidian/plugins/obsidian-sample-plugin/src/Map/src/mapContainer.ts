@@ -20,14 +20,14 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
 
-import * as consts from 'src/consts';
-import { MapState, mergeStates, stateToUrl, getCodeBlock } from 'src/mapState';
+import * as consts from 'src/Map/src/consts';
+import { MapState, mergeStates, stateToUrl, getCodeBlock } from 'src/Map/src/mapState';
 import {
     OpenBehavior,
-    PluginSettings,
+    Settings,
     TileSource,
     DEFAULT_SETTINGS,
-} from 'src/settings';
+} from 'settingsTab';
 import {
     MarkersMap,
     BaseGeoLayer,
@@ -35,24 +35,24 @@ import {
     buildMarkers,
     buildAndAppendFileMarkers,
     finalizeMarkers,
-} from 'src/markers';
-import { getIconFromOptions } from 'src/markerIcons';
-import MapViewPlugin from 'src/main';
-import * as utils from 'src/utils';
+} from 'src/Map/src/markers';
+import { getIconFromOptions } from 'src/Map/src/markerIcons';
+import MyPlugin from 'main';
+import * as utils from 'src/Map/src/utils';
 import {
     ViewControls,
     SearchControl,
     RealTimeControl,
     LockControl,
-} from 'src/viewControls';
-import { Query } from 'src/query';
-import { GeoSearchResult } from 'src/geosearch';
+} from 'src/Map/src/viewControls';
+import { Query } from 'src/Map/src/query';
+import { GeoSearchResult } from 'src/Map/src/geosearch';
 import {
     RealTimeLocation,
     RealTimeLocationSource,
     isSame,
-} from 'src/realTimeLocation';
-import * as menus from 'src/menus';
+} from 'src/Map/src/realTimeLocation';
+import * as menus from 'src/Map/src/menus';
 
 export type ViewSettings = {
     showZoomButtons: boolean;
@@ -77,7 +77,7 @@ export type ViewSettings = {
 
 export class MapContainer {
     private app: App;
-    public settings: PluginSettings;
+    public settings: Settings;
     public viewSettings: ViewSettings;
     private parentEl: HTMLElement;
     /** The displayed controls and objects of the map, separated from its logical state.
@@ -119,7 +119,7 @@ export class MapContainer {
     })();
     public ongoingChanges = 0;
     public freezeMap: boolean = false;
-    private plugin: MapViewPlugin;
+    private plugin: MyPlugin;
     /** The default state as saved in the plugin settings, or something else that the view sets */
     public defaultState: MapState;
     public lastRealTimeLocation: RealTimeLocation = null;
@@ -147,9 +147,9 @@ export class MapContainer {
      */
     constructor(
         parentEl: HTMLElement,
-        settings: PluginSettings,
+        settings: Settings,
         viewSettings: ViewSettings,
-        plugin: MapViewPlugin,
+        plugin: MyPlugin,
         app: App
     ) {
         this.settings = settings;
@@ -199,7 +199,7 @@ export class MapContainer {
         return this.display.markers;
     }
 
-    isDarkMode(settings: PluginSettings): boolean {
+    isDarkMode(settings: Settings): boolean {
         if (settings.chosenMapMode === 'dark') return true;
         if (settings.chosenMapMode === 'light') return false;
         // Auto mode - check if the theme is dark
@@ -350,7 +350,7 @@ export class MapContainer {
             const chosenMapSource = this.getMapSource();
             const attribution =
                 chosenMapSource.urlLight ===
-                DEFAULT_SETTINGS.mapSources[0].urlLight
+                    DEFAULT_SETTINGS.mapSources[0].urlLight
                     ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     : '';
             let revertMap = false;
@@ -1096,11 +1096,11 @@ export class MapContainer {
             center === null
                 ? null
                 : {
-                      center: center,
-                      accuracy: accuracy,
-                      source: source,
-                      timestamp: Date.now(),
-                  };
+                    center: center,
+                    accuracy: accuracy,
+                    source: source,
+                    timestamp: Date.now(),
+                };
         console.log(`New location received from source '${source}':`, location);
         if (!isSame(location, this.lastRealTimeLocation) || forceRefresh) {
             this.lastRealTimeLocation = location;

@@ -1,4 +1,4 @@
-import * as utils from 'src/utils';
+import * as utils from 'src/Map/src/utils';
 
 // The pound sign is optional here
 export const TAG_NAME_WITH_HEADER = /tag:(#?[\p{L}\p{N}_\/\-]*)/gu;

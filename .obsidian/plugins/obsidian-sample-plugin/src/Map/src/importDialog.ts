@@ -8,10 +8,10 @@ import {
 
 import { XMLParser } from 'fast-xml-parser';
 
-import { PluginSettings } from 'src/settings';
-import MapViewPlugin from 'src/main';
-import * as utils from 'src/utils';
-import * as regex from 'src/regex';
+import { Settings } from 'settingsTab';
+import MyPlugin from 'main';
+import * as utils from 'src/Map/src/utils';
+import * as regex from 'src/Map/src/regex';
 
 /**
  * TODO! This is an unfinished feature of an Import dialog, currently only from KML (that can be exported
@@ -21,14 +21,14 @@ import * as regex from 'src/regex';
 
 export class ImportDialog extends Modal {
     private editor: Editor;
-    private plugin: MapViewPlugin;
-    private settings: PluginSettings;
+    private plugin: MyPlugin;
+    private settings: Settings;
 
     constructor(
         editor: Editor,
         app: App,
-        plugin: MapViewPlugin,
-        settings: PluginSettings
+        plugin: MyPlugin,
+        settings: Settings
     ) {
         super(app);
         this.editor = editor;

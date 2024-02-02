@@ -8,10 +8,10 @@ import {
     EditorSuggestContext,
 } from 'obsidian';
 
-import { PluginSettings } from 'src/settings';
-import { getTagUnderCursor } from 'src/regex';
-import { matchInlineLocation } from 'src/markers';
-import * as utils from 'src/utils';
+import { Settings } from 'settingsTab';
+import { getTagUnderCursor } from 'src/Map/src/regex';
+import { matchInlineLocation } from 'src/Map/src/markers';
+import * as utils from 'src/Map/src/utils';
 
 class SuggestInfo {
     tagName: string;
@@ -21,7 +21,7 @@ class SuggestInfo {
 export class TagSuggest extends EditorSuggest<SuggestInfo> {
     private app: App;
 
-    constructor(app: App, settings: PluginSettings) {
+    constructor(app: App, settings: Settings) {
         super(app);
         this.app = app;
     }

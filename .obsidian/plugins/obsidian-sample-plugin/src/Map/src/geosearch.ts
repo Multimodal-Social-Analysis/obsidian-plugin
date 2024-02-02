@@ -3,10 +3,10 @@ import * as geosearch from 'leaflet-geosearch';
 import * as leaflet from 'leaflet';
 import * as querystring from 'query-string';
 
-import { PluginSettings } from 'src/settings';
-import { UrlConvertor } from 'src/urlConvertor';
-import { FileMarker } from 'src/markers';
-import * as consts from 'src/consts';
+import { Settings } from 'settingsTab';
+import { UrlConvertor } from 'src/Map/src/urlConvertor';
+import { FileMarker } from 'src/Map/src/markers';
+import * as consts from 'src/Map/src/consts';
 
 /**
  * A generic result of a geosearch
@@ -23,10 +23,10 @@ export class GeoSearcher {
     private searchProvider:
         | geosearch.OpenStreetMapProvider
         | geosearch.GoogleProvider = null;
-    private settings: PluginSettings;
+    private settings: Settings;
     private urlConvertor: UrlConvertor;
 
-    constructor(app: App, settings: PluginSettings) {
+    constructor(app: App, settings: Settings) {
         this.settings = settings;
         this.urlConvertor = new UrlConvertor(app, settings);
         if (settings.searchProvider == 'osm')
@@ -96,11 +96,11 @@ export class GeoSearcher {
             results = results.concat(
                 searchResults.map(
                     (result) =>
-                        ({
-                            name: result.label,
-                            location: new leaflet.LatLng(result.y, result.x),
-                            resultType: 'searchResult',
-                        } as GeoSearchResult)
+                    ({
+                        name: result.label,
+                        location: new leaflet.LatLng(result.y, result.x),
+                        resultType: 'searchResult',
+                    } as GeoSearchResult)
                 )
             );
         }
@@ -111,7 +111,7 @@ export class GeoSearcher {
 
 export async function googlePlacesSearch(
     query: string,
-    settings: PluginSettings,
+    settings: Settings,
     centerOfSearch: leaflet.LatLng | null
 ): Promise<GeoSearchResult[]> {
     if (settings.searchProvider != 'google' || !settings.useGooglePlaces)

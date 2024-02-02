@@ -1,5 +1,5 @@
 import * as leaflet from 'leaflet';
-import { PluginSettings } from 'src/settings';
+import { Settings } from 'settingsTab';
 import { Notice } from 'obsidian';
 import { exec } from 'child_process';
 
@@ -45,7 +45,7 @@ type Params = {
 };
 
 export function askForLocation(
-    settings: PluginSettings,
+    settings: Settings,
     geoaction: GeoHelperAction = 'locate',
     mvaction: MapViewGpsAction = 'showonmap',
     mvcontext = ''
@@ -64,7 +64,7 @@ export function askForLocation(
         case 'app': {
             open(
                 'geohelper://locate' +
-                    `?geoaction=${geoaction}&mvaction=${mvaction}&mvcontext=${mvcontext}`
+                `?geoaction=${geoaction}&mvaction=${mvaction}&mvcontext=${mvcontext}`
             );
             new Notice('Asking GeoHelper App for location');
             return true;
