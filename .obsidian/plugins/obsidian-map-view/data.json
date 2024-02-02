@@ -88,7 +88,7 @@
     }
   ],
   "mapControls": {
-    "filtersDisplayed": true,
+    "filtersDisplayed": false,
     "viewDisplayed": true,
     "presetsDisplayed": false
   },

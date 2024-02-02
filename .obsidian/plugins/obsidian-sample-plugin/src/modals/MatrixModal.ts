@@ -1,5 +1,5 @@
 import { App, MarkdownView, Modal, Notice, Setting, SliderComponent } from "obsidian";
-import MyPlugin from "./main";
+import MyPlugin from "../../main";
 
 export default class CreationModal extends Modal {
 
