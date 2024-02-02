@@ -19,12 +19,15 @@ import { OpenAIAssistant } from "./src/AI/openai_api";
 declare var count: number;
 
 interface Settings {
+	// Matrix
 	rememberMatrixType: boolean; // Whether to save matrix type
 	rememberMatrixDimensions: boolean; // Whether to save matrix dimensions
 	inline: boolean; // Whether to put all generated text on one line
 	lastUsedMatrix: string; // Previously-used type of matrix
 	prevX: number | null; // Previously-used matrix X dimension
 	prevY: number | null; // Previously-used matrix Y dimension
+
+	// AI
 	mySetting: string;
 	apiKey: string;
 	modelName: string;
@@ -33,6 +36,8 @@ interface Settings {
 	replaceSelection: boolean;
 	imgFolder: string;
 	language: string;
+
+	// Map
 }
 
 interface MatrixPluginSettings {
@@ -55,7 +60,7 @@ interface AiAssistantSettings {
 	language: string;
 }
 
-const DEFAULT_SETTINGS = {
+const DEFAULT_SETTINGS: Settings = {
 	// Matrix
 	rememberMatrixType: true,
 	rememberMatrixDimensions: true,
@@ -73,6 +78,8 @@ const DEFAULT_SETTINGS = {
 	replaceSelection: true,
 	imgFolder: "AiAssistant/Assets",
 	language: "",
+
+	// Map
 };
 
 
