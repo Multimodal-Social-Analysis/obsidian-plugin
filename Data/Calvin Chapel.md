@@ -18,3 +18,4 @@ embedded:
 ```mapview
 {"name":"Default","mapZoom":8,"centerLat":42.92922215,"centerLng":-85.5884243967476,"query":"","chosenMapSource":0}
 ```
+

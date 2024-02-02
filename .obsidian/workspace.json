@@ -4,15 +4,31 @@
     "type": "split",
     "children": [
       {
-        "id": "7b731df961f664ee",
+        "id": "b7a826f37637abe4",
         "type": "tabs",
         "children": [
           {
-            "id": "be99eff9b93756fc",
+            "id": "e942fb5497a5c56f",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Data/Calvin Chapel.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "e0745d62dba3fc5b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Data/Calvin Chapel.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -81,6 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Data/Calvin Chapel.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +114,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Data/Calvin Chapel.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -119,7 +137,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Data/Factors.md"
+                "file": "Data/Calvin Chapel.md"
               }
             }
           }
@@ -133,27 +151,25 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "obsidian-plugin:Obsidian Matrix Test": false,
-      "obsidian-plugin:Search File": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false,
-      "obsidian-map-view:Open map view": false
+      "obsidian-map-view:Open map view": false,
+      "command-palette:Open command palette": false
     }
   },
-  "active": "cec40ee644ff1191",
+  "active": "e942fb5497a5c56f",
   "lastOpenFiles": [
-    "Data/Factors.md",
     "Data/Bathroom.md",
-    "Data/Hospital.md",
-    "Data/Bank.md",
+    "Data/Factors.md",
     "Data/Calvin Chapel.md",
+    "Data/Bank.md",
+    "Data/Hospital.md",
+    "Matrix testing.md",
     "Data/README.md",
     "Untitled.md",
-    "Matrix testing.md",
     "Data/test.md",
     "obsidian-matrix/versions.json",
     "obsidian-matrix/version-bump.mjs",
