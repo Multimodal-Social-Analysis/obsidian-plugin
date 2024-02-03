@@ -1,12 +1,12 @@
 import { Editor, App, SuggestModal, TFile, Instruction } from 'obsidian';
 import * as leaflet from 'leaflet';
 
-import MapViewPlugin from 'src/main';
-import { PluginSettings } from 'src/settings';
-import { GeoSearcher, GeoSearchResult } from 'src/geosearch';
-import { getIconFromOptions } from 'src/markerIcons';
-import * as utils from 'src/utils';
-import * as consts from 'src/consts';
+import MyPlugin from 'main';
+import { Settings } from 'settingsTab';
+import { GeoSearcher, GeoSearchResult } from 'src/Map/src/geosearch';
+import { getIconFromOptions } from 'src/Map/src/markerIcons';
+import * as utils from 'src/Map/src/utils';
+import * as consts from 'src/Map/src/consts';
 
 export class SuggestInfo extends GeoSearchResult {
     icon?: leaflet.ExtraMarkers.IconOptions;
@@ -15,8 +15,8 @@ export class SuggestInfo extends GeoSearchResult {
 type DialogAction = 'newNote' | 'addToNote' | 'custom';
 
 export class LocationSearchDialog extends SuggestModal<SuggestInfo> {
-    private plugin: MapViewPlugin;
-    private settings: PluginSettings;
+    private plugin: MyPlugin;
+    private settings: Settings;
     private searcher: GeoSearcher;
     private lastSearchTime = 0;
     private delayInMs = 250;
@@ -39,8 +39,8 @@ export class LocationSearchDialog extends SuggestModal<SuggestInfo> {
 
     constructor(
         app: App,
-        plugin: MapViewPlugin,
-        settings: PluginSettings,
+        plugin: MyPlugin,
+        settings: Settings,
         dialogAction: DialogAction,
         title: string,
         editor: Editor = null,

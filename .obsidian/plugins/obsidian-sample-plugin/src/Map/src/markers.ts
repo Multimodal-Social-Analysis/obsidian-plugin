@@ -3,11 +3,11 @@ import * as leaflet from 'leaflet';
 import 'leaflet-extra-markers';
 import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
 
-import { PluginSettings } from 'src/settings';
-import { getIconFromRules, IconCache } from 'src/markerIcons';
-import * as consts from 'src/consts';
-import * as regex from 'src/regex';
-import { djb2Hash } from 'src/utils';
+import { Settings } from 'settingsTab';
+import { getIconFromRules, IconCache } from 'src/Map/src/markerIcons';
+import * as consts from 'src/Map/src/consts';
+import * as regex from 'src/Map/src/regex';
+import { djb2Hash } from 'src/Map/src/utils';
 import wildcard from 'wildcard';
 
 type MarkerId = string;
@@ -90,7 +90,7 @@ export class FileMarker extends BaseGeoLayer {
             this.icon?.options?.iconColor === other.icon?.options?.iconColor &&
             // @ts-ignore
             this.icon?.options?.markerColor ===
-                other.icon?.options?.markerColor &&
+            other.icon?.options?.markerColor &&
             // @ts-ignore
             this.icon?.options?.shape === other.icon?.options?.shape
         );
@@ -126,8 +126,8 @@ export function generateMarkerId(
         (fileLocation
             ? fileLocation
             : fileLine
-            ? 'nofileloc' + fileLine
-            : 'nofileline')
+                ? 'nofileloc' + fileLine
+                : 'nofileline')
     );
 }
 
@@ -145,7 +145,7 @@ export type MarkersMap = Map<MarkerId, BaseGeoLayer>;
 export async function buildAndAppendFileMarkers(
     mapToAppendTo: BaseGeoLayer[],
     file: TFile,
-    settings: PluginSettings,
+    settings: Settings,
     app: App,
     skipMetadata?: boolean
 ) {
@@ -185,7 +185,7 @@ export async function buildAndAppendFileMarkers(
  */
 export async function buildMarkers(
     files: TFile[],
-    settings: PluginSettings,
+    settings: Settings,
     app: App
 ): Promise<BaseGeoLayer[]> {
     if (settings.debug) console.time('buildMarkers');
@@ -204,7 +204,7 @@ export async function buildMarkers(
  */
 export function finalizeMarkers(
     markers: BaseGeoLayer[],
-    settings: PluginSettings,
+    settings: Settings,
     iconCache: IconCache
 ) {
     for (const marker of markers)
@@ -260,7 +260,7 @@ export function matchInlineLocation(content: string): RegExpMatchArray[] {
  */
 export async function getMarkersFromFileContent(
     file: TFile,
-    settings: PluginSettings,
+    settings: Settings,
     app: App
 ): Promise<FileMarker[]> {
     let markers: FileMarker[] = [];

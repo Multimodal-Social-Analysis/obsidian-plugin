@@ -1,16 +1,16 @@
 import { App, Notice, MarkdownPostProcessorContext } from 'obsidian';
 
-import { PluginSettings } from 'src/settings';
-import MapViewPlugin from 'src/main';
+import { Settings } from 'settingsTab';
+import MyPlugin from 'main';
 
-import { MapContainer, ViewSettings } from 'src/mapContainer';
-import { MapState, getCodeBlock } from 'src/mapState';
-import { getEditor, findOpenMapView } from 'src/utils';
+import { MapContainer, ViewSettings } from 'src/Map/src/mapContainer';
+import { MapState, getCodeBlock } from 'src/Map/src/mapState';
+import { getEditor, findOpenMapView } from 'src/Map/src/utils';
 
 export class EmbeddedMap {
     public mapContainer: MapContainer;
     private resizeObserver: ResizeObserver;
-    private settings: PluginSettings;
+    private settings: Settings;
     private app: App;
     private markdownContext: MarkdownPostProcessorContext;
     private parentEl: HTMLElement;
@@ -19,8 +19,8 @@ export class EmbeddedMap {
         parentEl: HTMLElement,
         ctx: MarkdownPostProcessorContext,
         app: App,
-        settings: PluginSettings,
-        plugin: MapViewPlugin,
+        settings: Settings,
+        plugin: MyPlugin,
         customViewSettings: Partial<ViewSettings> = null
     ) {
         this.app = app;
@@ -67,7 +67,7 @@ export class EmbeddedMap {
             }
             const state = view.mapContainer.state;
             const success = this.updateCodeBlockWithState(state);
-            if (success)
+            if (await success)
                 new Notice('Successfully copied another open Map View');
         };
     }

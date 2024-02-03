@@ -11,7 +11,7 @@ import {
 import * as moment_ from 'moment';
 import * as leaflet from 'leaflet';
 import * as path from 'path';
-import * as settings from './settings';
+import * as settings from 'settingsTab';
 import * as consts from './consts';
 import { BaseMapView } from './baseMapView';
 
@@ -94,8 +94,8 @@ export async function newNote(
     const filePath = path?.join
         ? path.join(directory, fileName)
         : directory
-        ? directory + '/' + fileName
-        : fileName;
+            ? directory + '/' + fileName
+            : fileName;
     let fullName = sanitizeFileName(filePath);
     if (await app.vault.adapter.exists(fullName + '.md'))
         fullName += Math.random() * 1000;

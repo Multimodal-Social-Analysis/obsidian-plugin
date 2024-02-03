@@ -22,13 +22,13 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
 
-import * as consts from 'src/consts';
-import { MapState, mergeStates, stateToUrl, copyState } from 'src/mapState';
-import { PluginSettings, TileSource, DEFAULT_SETTINGS } from 'src/settings';
-import MapViewPlugin from 'src/main';
-import * as utils from 'src/utils';
+import * as consts from 'src/Map/src/consts';
+import { MapState, mergeStates, stateToUrl, copyState } from 'src/Map/src/mapState';
+import { Settings, TileSource, DEFAULT_SETTINGS } from 'settingsTab';
+import MyPlugin from 'main';
+import * as utils from 'src/Map/src/utils';
 
-import { MapContainer, ViewSettings } from 'src/mapContainer';
+import { MapContainer, ViewSettings } from 'src/Map/src/mapContainer';
 
 export abstract class BaseMapView extends ItemView {
     public mapContainer: MapContainer;
@@ -43,9 +43,9 @@ export abstract class BaseMapView extends ItemView {
      */
     constructor(
         leaf: WorkspaceLeaf,
-        settings: PluginSettings,
+        settings: Settings,
         viewSettings: ViewSettings,
-        plugin: MapViewPlugin
+        plugin: MyPlugin
     ) {
         super(leaf);
         this.navigation = true;
@@ -160,7 +160,7 @@ export abstract class BaseMapView extends ItemView {
         return false;
     }
 
-    isDarkMode(settings: PluginSettings): boolean {
+    isDarkMode(settings: Settings): boolean {
         if (settings.chosenMapMode === 'dark') return true;
         if (settings.chosenMapMode === 'light') return false;
         // Auto mode - check if the theme is dark

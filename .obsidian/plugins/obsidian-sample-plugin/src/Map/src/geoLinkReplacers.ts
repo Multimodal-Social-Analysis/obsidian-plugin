@@ -12,26 +12,26 @@ import {
     MarkdownView,
     MarkdownPostProcessorContext,
 } from 'obsidian';
-import MapViewPlugin from './main';
+import MyPlugin from 'main';
 import { matchInlineLocation, generateMarkerId } from './markers';
 import * as regex from './regex';
 
-export interface GeoLinkReplacePlugin extends PluginValue {}
+export interface GeoLinkReplacePlugin extends PluginValue { }
 
 /*
  * This is a CodeMirror editor View plugin that modifies editor links to have custom 'onclick' and mouse enter/leave
  * events, to handle Map View links and map preview popups.
  */
-export function getLinkReplaceEditorPlugin(mapViewPlugin: MapViewPlugin) {
+export function getLinkReplaceEditorPlugin(MyPlugin: MyPlugin) {
     return ViewPlugin.fromClass(
         class implements GeoLinkReplacePlugin {
             view: EditorView;
             decorations: DecorationSet;
             active = false;
-            mapViewPlugin: MapViewPlugin;
+            MyPlugin: MyPlugin;
 
             constructor(view: EditorView) {
-                this.mapViewPlugin = mapViewPlugin;
+                this.MyPlugin = MyPlugin;
                 this.decorations = this.buildDecorations(view);
             }
 
@@ -47,7 +47,7 @@ export function getLinkReplaceEditorPlugin(mapViewPlugin: MapViewPlugin) {
              */
             buildDecorations(view: EditorView) {
                 const builder = new RangeSetBuilder<Decoration>();
-                if (!this.mapViewPlugin.settings.handleGeolinksInNotes)
+                if (!this.MyPlugin.settings.handleGeolinksInNotes)
                     return builder.finish();
                 if (view == null || view.state == null) return builder.finish();
 
@@ -172,16 +172,16 @@ export function getLinkReplaceEditorPlugin(mapViewPlugin: MapViewPlugin) {
                 });
             }
 
-            destroy() {}
+            destroy() { }
         },
         { decorations: (v) => v.decorations }
     );
 }
 
 // This returns a Markdown post-processor that adds attributes to geolinks, similarly to the editor extension above.
-export const replaceLinksPostProcessor = (mapViewPlugin: MapViewPlugin) => {
+export const replaceLinksPostProcessor = (MyPlugin: MyPlugin) => {
     return (el: HTMLElement, ctx: MarkdownPostProcessorContext) => {
-        if (!mapViewPlugin.settings.handleGeolinksInNotes) return;
+        if (!MyPlugin.settings.handleGeolinksInNotes) return;
         const links = Array.from(el.querySelectorAll('a'));
         for (const link of links) {
             if (link.href.startsWith('geo:')) {

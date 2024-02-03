@@ -1,8 +1,8 @@
-import { PluginSettings } from 'src/settings';
-import { EmbeddedMap } from 'src/embeddedMap';
-import MapViewPlugin from './main';
+import { Settings } from 'settingsTab';
+import { EmbeddedMap } from 'src/Map/src/embeddedMap';
+import MyPlugin from 'main';
 import { App } from 'obsidian';
-import { MapState, mergeStates } from 'src/mapState';
+import { MapState, mergeStates } from 'src/Map/src/mapState';
 import * as leaflet from 'leaflet';
 import { createPopper, Instance as PopperInstance } from '@popperjs/core';
 
@@ -20,13 +20,13 @@ export class MapPreviewPopup {
     private map: EmbeddedMap = null;
     private targetElement: HTMLElement = null;
     private popupObserver: MutationObserver = null;
-    private settings: PluginSettings;
-    private plugin: MapViewPlugin;
+    private settings: Settings;
+    private plugin: MyPlugin;
     private app: App;
     private popperInstance: PopperInstance;
     private isOpen: boolean = false;
 
-    constructor(settings: PluginSettings, plugin: MapViewPlugin, app: App) {
+    constructor(settings: Settings, plugin: MyPlugin, app: App) {
         this.settings = settings;
         this.plugin = plugin;
         this.app = app;

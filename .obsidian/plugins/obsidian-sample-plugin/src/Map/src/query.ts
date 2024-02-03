@@ -1,11 +1,11 @@
 import { App, TFile, TextComponent, PopoverSuggest, Scope } from 'obsidian';
 
-import * as consts from 'src/consts';
-import { matchByPosition } from 'src/utils';
-import * as regex from 'src/regex';
-import { BaseGeoLayer, FileMarker } from 'src/markers';
-import * as utils from 'src/utils';
-import { checkTagPatternMatch } from 'src/markerIcons';
+import * as consts from 'src/Map/src/consts';
+import { matchByPosition } from 'src/Map/src/utils';
+import * as regex from 'src/Map/src/regex';
+import { BaseGeoLayer, FileMarker } from 'src/Map/src/markers';
+import * as utils from 'src/Map/src/utils';
+import { checkTagPatternMatch } from 'src/Map/src/markerIcons';
 
 import * as parser from 'boon-js';
 
@@ -132,9 +132,9 @@ export class Query {
                     linksFrom?.links?.some(
                         (linkCache) =>
                             linkCache.link.toLowerCase() ===
-                                marker.file.basename.toLowerCase() ||
+                            marker.file.basename.toLowerCase() ||
                             linkCache.displayText.toLowerCase() ===
-                                marker.file.basename.toLowerCase()
+                            marker.file.basename.toLowerCase()
                     )
                 ) {
                     return true;
@@ -429,9 +429,9 @@ export class QuerySuggest extends PopoverSuggest<Suggestion> {
             this.sourceElement.setValue(newText);
             this.sourceElement.inputEl.selectionEnd =
                 this.sourceElement.inputEl.selectionStart =
-                    insertAt +
-                    addedText.length +
-                    (suggestion?.cursorOffset ?? 0);
+                insertAt +
+                addedText.length +
+                (suggestion?.cursorOffset ?? 0);
             // Don't allow a click to steal the focus from the text box
             event.preventDefault();
             // This causes the text area to scroll to the new cursor position

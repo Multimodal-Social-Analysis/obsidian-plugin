@@ -6,7 +6,7 @@ import 'leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css';
 let localL = L;
 import wildcard from 'wildcard';
 
-import { MarkerIconRule } from 'src/settings';
+import { MarkerIconRule } from 'settingsTab';
 
 export function getIconFromRules(
     tags: string[],

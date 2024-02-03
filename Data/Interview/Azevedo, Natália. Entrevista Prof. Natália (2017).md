@@ -1,0 +1,1 @@
+Então assim, se os empreendimentos não vem não tem emprego [[work]] , não tem alternativa econômica, população sofre com vários deficits né... Socioeconômicos, de serviços e que no discurso oficial seriam sanados [[locational_blackmail]]
