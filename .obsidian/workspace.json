@@ -11,8 +11,13 @@
             "id": "e6d91a6400f62a89",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Data/Interview/Caldeira, Guilherme. Entrevista Guilherme Caldeira (2017).md",
+                "mode": "source",
+                "backlinks": false,
+                "source": false
+              }
             }
           }
         ]
@@ -81,6 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Data/Interview/Caldeira, Guilherme. Entrevista Guilherme Caldeira (2017).md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Data/Interview/Caldeira, Guilherme. Entrevista Guilherme Caldeira (2017).md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -119,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Untitled.md"
+                "file": "Data/Interview/Caldeira, Guilherme. Entrevista Guilherme Caldeira (2017).md"
               }
             }
           }
@@ -144,16 +151,30 @@
       "Social-Analysis-plugin:Obsidian Matrix Test": false
     }
   },
-  "active": "cec40ee644ff1191",
+  "active": "e6d91a6400f62a89",
   "lastOpenFiles": [
+    "Data/Azevedo, Natália. Entrevista Prof. Natália (2017).md",
+    "Data/Interview/Caldeira, Guilherme. Entrevista Guilherme Caldeira (2017).md",
+    "Factors/cultural heritage.md",
+    "Data/Interview/Azevedo, Natália. Entrevista Prof. Natália (2017).md",
+    "Factors/education.md",
+    "Factors/human rights.md",
+    "Factors/work.md",
+    "Factors/social context.md",
+    "Factors/public policies.md",
+    "Factors/port traffic.md",
+    "Factors/locational dynamic.md",
+    "Factors/institutional political situation.md",
+    "Factors/infrastructure.md",
+    "Factors/fishing activity.md",
+    "Factors/environmental systems.md",
+    "Factors/economic model.md",
+    "Data/Book/Cunico, Camila. Zoneamento ecológico - econômico do estado do Paraná - litoral (2016).md",
     "Data/Web Page/Basden, Andrew. The good that each aspect brings (2018).md",
     "Data/TV/Gabeira, Fernando. A implantação de porto no Pontal do Paraná (2017).md",
     "Data/Paper/De Oliveira e Silva, Juliana. Efeitos do avanço urbano-turístico e portuário em comunidades pesqueiras de Pontal do Paraná - PR (2006).md",
     "Data/Paper/Albuquerque, Esther De Almeida. O resgate histórico e cultural de Pontal do Paraná  como meio de transformação na vida dos moradores (2011).md",
-    "Data/Interview/Caldeira, Guilherme. Entrevista Guilherme Caldeira (2017).md",
-    "Data/Interview/Azevedo, Natália. Entrevista Prof. Natália (2017).md",
     "Data/Document/Colit. Ata da 68ª Reunião Ordinária do Conselho de Desenvolvimento Territorial  do Litoral Paranaense, realizada no dia 20 de Dezembro de 2016 (2016).md",
-    "Data/Book/Cunico, Camila. Zoneamento ecológico - econômico do estado do Paraná - litoral (2016).md",
     "Data/Web Page",
     "Data/TV",
     "Data/Paper",
@@ -165,23 +186,9 @@
     "Dat/TV/Gabeira, Fernando. A implantação de porto no Pontal do Paraná (2017).md",
     "Dat/Paper/De Oliveira e Silva, Juliana. Efeitos do avanço urbano-turístico e portuário em comunidades pesqueiras de Pontal do Paraná - PR (2006).md",
     "Dat/Paper/Albuquerque, Esther De Almeida. O resgate histórico e cultural de Pontal do Paraná  como meio de transformação na vida dos moradores (2011).md",
-    "Dat/Interview/Caldeira, Guilherme. Entrevista Guilherme Caldeira (2017).md",
-    "Dat/Interview/Azevedo, Natália. Entrevista Prof. Natália (2017).md",
-    "Dat/Document/Colit. Ata da 68ª Reunião Ordinária do Conselho de Desenvolvimento Territorial  do Litoral Paranaense, realizada no dia 20 de Dezembro de 2016 (2016).md",
-    "Dat/Book/Cunico, Camila. Zoneamento ecológico - econômico do estado do Paraná - litoral (2016).md",
     "Dat/Web Page",
     "Dat/TV",
     "Dat/Paper",
-    "Sources/Multimodal Matrix.md",
-    "Sources/Web Page/Basden, Andrew. The good that each aspect brings (2018).md",
-    "Sources/TV/Gabeira, Fernando. A implantação de porto no Pontal do Paraná (2017).md",
-    "Sources/Paper/Albuquerque, Esther De Almeida. O resgate histórico e cultural de Pontal do Paraná  como meio de transformação na vida dos moradores (2011).md",
-    "Sources/Paper/De Oliveira e Silva, Juliana. Efeitos do avanço urbano-turístico e portuário em comunidades pesqueiras de Pontal do Paraná - PR (2006).md",
-    "Sources/Interview/Caldeira, Guilherme. Entrevista Guilherme Caldeira (2017).md",
-    "Sources/Interview/Azevedo, Natália. Entrevista Prof. Natália (2017).md",
-    "Sources/Document/Colit. Ata da 68ª Reunião Ordinária do Conselho de Desenvolvimento Territorial  do Litoral Paranaense, realizada no dia 20 de Dezembro de 2016 (2016).md",
-    "Sources/Book/Cunico, Camila. Zoneamento ecológico - econômico do estado do Paraná - litoral (2016).md",
-    "Factors/work.md",
     "Untitled.canvas",
     "obsidian-matrix/usage.gif"
   ]

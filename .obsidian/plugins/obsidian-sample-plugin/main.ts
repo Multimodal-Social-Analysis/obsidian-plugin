@@ -85,426 +85,426 @@ export default class MyPlugin extends Plugin {
 
 		/* Map Plugin */
 		// Add a new ribbon entry to the left bar
-		// this.addRibbonIcon('map-pin', 'Open map view', (ev: MouseEvent) => {
-		// 	this.openMap(
-		// 		utils.mouseEventToOpenMode(this.settings, ev, 'openMap')
-		// 	);
+		this.addRibbonIcon('map-pin', 'Open map view', (ev: MouseEvent) => {
+			this.openMap(
+				utils.mouseEventToOpenMode(this.settings, ev, 'openMap')
+			);
+		});
+
+		this.registerView(consts.MAP_VIEW_NAME, (leaf: WorkspaceLeaf) => {
+			return new MainMapView(leaf, this.settings, this);
+		});
+
+		this.editorLinkReplacePlugin = getLinkReplaceEditorPlugin(this);
+		this.registerEditorExtension(this.editorLinkReplacePlugin);
+
+		// Currently not in use; the feature is frozen until I have the time to work on its various quirks
+		// this.registerView(consts.MINI_MAP_VIEW_NAME, (leaf: WorkspaceLeaf) => {
+		// 	return new MiniMapView(leaf, this.settings, this);
 		// });
 
-		// this.registerView(consts.MAP_VIEW_NAME, (leaf: WorkspaceLeaf) => {
-		// 	return new MainMapView(leaf, this.settings, this);
-		// });
+		this.registerObsidianProtocolHandler(
+			'mapview',
+			async (params: ObsidianProtocolData) => {
+				if (params.action === 'mapview') {
+					if (params.mvaction === 'showonmap') {
+						const location =
+							params.centerLat && params.centerLng
+								? new leaflet.LatLng(
+									parseFloat(params.centerLat),
+									parseFloat(params.centerLng)
+								)
+								: null;
+						const accuracy = params.accuracy;
+						const source = params?.source ?? 'unknown';
+						const map = await this.openMap('replaceCurrent', null);
+						if (map) {
+							map.mapContainer.setRealTimeLocation(
+								location,
+								parseFloat(accuracy),
+								source as RealTimeLocationSource,
+								true
+							);
+						}
+					} else if (params.mvaction === 'newnotehere') {
+						const location =
+							params.centerLat && params.centerLng
+								? new leaflet.LatLng(
+									parseFloat(params.centerLat),
+									parseFloat(params.centerLng)
+								)
+								: null;
+						if (location) {
+							this.newFrontMatterNote(location, null, '');
+						}
+					} else if (params.mvaction === 'addtocurrentnotefm') {
+						const location =
+							params.centerLat && params.centerLng
+								? new leaflet.LatLng(
+									parseFloat(params.centerLat),
+									parseFloat(params.centerLng)
+								)
+								: null;
+						const editor = await utils.getEditor(this.app);
+						if (location && editor) {
+							const locationString = `[${location.lat},${location.lng}]`;
+							utils.verifyOrAddFrontMatter(
+								editor,
+								'location',
+								locationString
+							);
+						}
+					} else if (params.mvaction === 'addtocurrentnoteinline') {
+						const location =
+							params.centerLat && params.centerLng
+								? new leaflet.LatLng(
+									parseFloat(params.centerLat),
+									parseFloat(params.centerLng)
+								)
+								: null;
+						const editor = await utils.getEditor(this.app);
+						utils.insertLocationToEditor(
+							location,
+							editor,
+							this.settings
+						);
+					} else if (params.mvaction === 'copyinlinelocation') {
+						new Notice('Inline location copied to clipboard');
+					} else {
+						const state = stateFromParsedUrl(params);
+						// If a saved URL is opened in another device on which there aren't the same sources, use
+						// the default source instead
+						if (
+							state.chosenMapSource >=
+							this.settings.mapSources.length
+						)
+							state.chosenMapSource =
+								DEFAULT_SETTINGS.defaultState.chosenMapSource;
+						this.openMapWithState(state, 'replaceCurrent', false);
+					}
+				}
+			}
+		);
 
-		// this.editorLinkReplacePlugin = getLinkReplaceEditorPlugin(this);
-		// this.registerEditorExtension(this.editorLinkReplacePlugin);
+		this.registerMarkdownCodeBlockProcessor(
+			'mapview',
+			async (
+				source: string,
+				el: HTMLElement,
+				ctx: MarkdownPostProcessorContext
+			) => {
+				let state = null;
+				try {
+					const rawStateObj = JSON.parse(source);
+					state = stateFromParsedUrl(rawStateObj);
+				} catch (e) {
+					el.setText(
+						'Map View is unable to parse this saved state: ' +
+						e.toString()
+					);
+				}
+				if (state) {
+					// Allow templates in the embedded query, e.g. to automatically insert the file name
+					state.query = utils.formatEmbeddedWithTemplates(
+						state.query,
+						ctx.sourcePath
+					);
+					let map = new EmbeddedMap(
+						el,
+						ctx,
+						this.app,
+						this.settings,
+						this
+					);
+					await map.open(state);
+				}
+			}
+		);
 
-		// // Currently not in use; the feature is frozen until I have the time to work on its various quirks
-		// // this.registerView(consts.MINI_MAP_VIEW_NAME, (leaf: WorkspaceLeaf) => {
-		// // 	return new MiniMapView(leaf, this.settings, this);
-		// // });
+		this.registerMarkdownPostProcessor(replaceLinksPostProcessor(this));
 
-		// this.registerObsidianProtocolHandler(
-		// 	'mapview',
-		// 	async (params: ObsidianProtocolData) => {
-		// 		if (params.action === 'mapview') {
-		// 			if (params.mvaction === 'showonmap') {
-		// 				const location =
-		// 					params.centerLat && params.centerLng
-		// 						? new leaflet.LatLng(
-		// 							parseFloat(params.centerLat),
-		// 							parseFloat(params.centerLng)
-		// 						)
-		// 						: null;
-		// 				const accuracy = params.accuracy;
-		// 				const source = params?.source ?? 'unknown';
-		// 				const map = await this.openMap('replaceCurrent', null);
-		// 				if (map) {
-		// 					map.mapContainer.setRealTimeLocation(
-		// 						location,
-		// 						parseFloat(accuracy),
-		// 						source as RealTimeLocationSource,
-		// 						true
-		// 					);
-		// 				}
-		// 			} else if (params.mvaction === 'newnotehere') {
-		// 				const location =
-		// 					params.centerLat && params.centerLng
-		// 						? new leaflet.LatLng(
-		// 							parseFloat(params.centerLat),
-		// 							parseFloat(params.centerLng)
-		// 						)
-		// 						: null;
-		// 				if (location) {
-		// 					this.newFrontMatterNote(location, null, '');
-		// 				}
-		// 			} else if (params.mvaction === 'addtocurrentnotefm') {
-		// 				const location =
-		// 					params.centerLat && params.centerLng
-		// 						? new leaflet.LatLng(
-		// 							parseFloat(params.centerLat),
-		// 							parseFloat(params.centerLng)
-		// 						)
-		// 						: null;
-		// 				const editor = await utils.getEditor(this.app);
-		// 				if (location && editor) {
-		// 					const locationString = `[${location.lat},${location.lng}]`;
-		// 					utils.verifyOrAddFrontMatter(
-		// 						editor,
-		// 						'location',
-		// 						locationString
-		// 					);
-		// 				}
-		// 			} else if (params.mvaction === 'addtocurrentnoteinline') {
-		// 				const location =
-		// 					params.centerLat && params.centerLng
-		// 						? new leaflet.LatLng(
-		// 							parseFloat(params.centerLat),
-		// 							parseFloat(params.centerLng)
-		// 						)
-		// 						: null;
-		// 				const editor = await utils.getEditor(this.app);
-		// 				utils.insertLocationToEditor(
-		// 					location,
-		// 					editor,
-		// 					this.settings
-		// 				);
-		// 			} else if (params.mvaction === 'copyinlinelocation') {
-		// 				new Notice('Inline location copied to clipboard');
-		// 			} else {
-		// 				const state = stateFromParsedUrl(params);
-		// 				// If a saved URL is opened in another device on which there aren't the same sources, use
-		// 				// the default source instead
-		// 				if (
-		// 					state.chosenMapSource >=
-		// 					this.settings.mapSources.length
-		// 				)
-		// 					state.chosenMapSource =
-		// 						DEFAULT_SETTINGS.defaultState.chosenMapSource;
-		// 				this.openMapWithState(state, 'replaceCurrent', false);
-		// 			}
-		// 		}
-		// 	}
-		// );
+		this.suggestor = new LocationSuggest(this.app, this.settings);
+		this.tagSuggestor = new TagSuggest(this.app, this.settings);
+		this.urlConvertor = new UrlConvertor(this.app, this.settings);
 
-		// this.registerMarkdownCodeBlockProcessor(
-		// 	'mapview',
-		// 	async (
-		// 		source: string,
-		// 		el: HTMLElement,
-		// 		ctx: MarkdownPostProcessorContext
-		// 	) => {
-		// 		let state = null;
-		// 		try {
-		// 			const rawStateObj = JSON.parse(source);
-		// 			state = stateFromParsedUrl(rawStateObj);
-		// 		} catch (e) {
-		// 			el.setText(
-		// 				'Map View is unable to parse this saved state: ' +
-		// 				e.toString()
-		// 			);
-		// 		}
-		// 		if (state) {
-		// 			// Allow templates in the embedded query, e.g. to automatically insert the file name
-		// 			state.query = utils.formatEmbeddedWithTemplates(
-		// 				state.query,
-		// 				ctx.sourcePath
-		// 			);
-		// 			let map = new EmbeddedMap(
-		// 				el,
-		// 				ctx,
-		// 				this.app,
-		// 				this.settings,
-		// 				this
-		// 			);
-		// 			await map.open(state);
-		// 		}
-		// 	}
-		// );
+		this.registerEditorSuggest(this.suggestor);
+		this.registerEditorSuggest(this.tagSuggestor);
 
-		// this.registerMarkdownPostProcessor(replaceLinksPostProcessor(this));
+		await convertLegacySettings(this.settings, this);
 
-		// this.suggestor = new LocationSuggest(this.app, this.settings);
-		// this.tagSuggestor = new TagSuggest(this.app, this.settings);
-		// this.urlConvertor = new UrlConvertor(this.app, this.settings);
+		this.iconCache = new IconCache(document.body);
 
-		// this.registerEditorSuggest(this.suggestor);
-		// this.registerEditorSuggest(this.tagSuggestor);
+		this.mapPreviewPopup = null;
 
-		// await convertLegacySettings(this.settings, this);
+		// Register commands to the command palette
+		// Command that opens the map view (same as clicking the map icon)
+		this.addCommand({
+			id: 'open-map-view',
+			name: 'Open Map View',
+			callback: () => {
+				this.app.workspace
+					.getLeaf()
+					.setViewState({ type: consts.MAP_VIEW_NAME });
+			},
+		});
 
-		// this.iconCache = new IconCache(document.body);
+		// Command that looks up the selected text to find the location
+		this.addCommand({
+			id: 'convert-selection-to-location',
+			name: 'Convert Selection to Geolocation',
+			editorCheckCallback: (checking, editor, view) => {
+				if (checking) return editor.getSelection().length > 0;
+				this.suggestor.selectionToLink(editor);
+			},
+		});
 
-		// this.mapPreviewPopup = null;
+		// Command that adds a blank inline location at the cursor location
+		this.addCommand({
+			id: 'insert-geolink',
+			name: 'Add inline geolocation link',
+			editorCallback: (editor, view) => {
+				const positionBeforeInsert = editor.getCursor();
+				editor.replaceSelection('[](geo:)');
+				editor.setCursor({
+					line: positionBeforeInsert.line,
+					ch: positionBeforeInsert.ch + 1,
+				});
+			},
+		});
 
-		// // Register commands to the command palette
-		// // Command that opens the map view (same as clicking the map icon)
-		// this.addCommand({
-		// 	id: 'open-map-view',
-		// 	name: 'Open Map View',
-		// 	callback: () => {
-		// 		this.app.workspace
-		// 			.getLeaf()
-		// 			.setViewState({ type: consts.MAP_VIEW_NAME });
-		// 	},
-		// });
+		// Command that opens the location search dialog and creates a new note from this location
+		this.addCommand({
+			id: 'new-geolocation-note',
+			name: 'New geolocation note',
+			callback: () => {
+				const dialog = new LocationSearchDialog(
+					this.app,
+					this,
+					this.settings,
+					'newNote',
+					'New geolocation note'
+				);
+				dialog.open();
+			},
+		});
 
-		// // Command that looks up the selected text to find the location
-		// this.addCommand({
-		// 	id: 'convert-selection-to-location',
-		// 	name: 'Convert Selection to Geolocation',
-		// 	editorCheckCallback: (checking, editor, view) => {
-		// 		if (checking) return editor.getSelection().length > 0;
-		// 		this.suggestor.selectionToLink(editor);
-		// 	},
-		// });
+		// Command that opens the location search dialog and adds the location to the current note
+		this.addCommand({
+			id: 'add-frontmatter-geolocation',
+			name: 'Add geolocation (front matter) to current note',
+			editorCallback: (editor, view) => {
+				const dialog = new LocationSearchDialog(
+					this.app,
+					this,
+					this.settings,
+					'addToNote',
+					'Add geolocation to note',
+					editor
+				);
+				dialog.open();
+			},
+		});
 
-		// // Command that adds a blank inline location at the cursor location
-		// this.addCommand({
-		// 	id: 'insert-geolink',
-		// 	name: 'Add inline geolocation link',
-		// 	editorCallback: (editor, view) => {
-		// 		const positionBeforeInsert = editor.getCursor();
-		// 		editor.replaceSelection('[](geo:)');
-		// 		editor.setCursor({
-		// 			line: positionBeforeInsert.line,
-		// 			ch: positionBeforeInsert.ch + 1,
-		// 		});
-		// 	},
-		// });
+		this.addCommand({
+			id: 'open-map-search',
+			name: 'Search active map view',
+			checkCallback: (checking) => {
+				const currentView = this.app.workspace.activeLeaf.view;
+				if (
+					currentView &&
+					currentView.getViewType() == consts.MAP_VIEW_NAME
+				) {
+					if (!checking)
+						(currentView as MainMapView).mapContainer.openSearch();
+					return true;
+				} else return false;
+			},
+		});
 
-		// // Command that opens the location search dialog and creates a new note from this location
-		// this.addCommand({
-		// 	id: 'new-geolocation-note',
-		// 	name: 'New geolocation note',
-		// 	callback: () => {
-		// 		const dialog = new LocationSearchDialog(
-		// 			this.app,
-		// 			this,
-		// 			this.settings,
-		// 			'newNote',
-		// 			'New geolocation note'
-		// 		);
-		// 		dialog.open();
-		// 	},
-		// });
+		this.addCommand({
+			id: 'quick-map-embed',
+			name: 'Add an embedded map',
+			editorCallback: (editor: Editor, ctx) => {
+				this.openQuickEmbed(editor);
+			},
+		});
 
-		// // Command that opens the location search dialog and adds the location to the current note
-		// this.addCommand({
-		// 	id: 'add-frontmatter-geolocation',
-		// 	name: 'Add geolocation (front matter) to current note',
-		// 	editorCallback: (editor, view) => {
-		// 		const dialog = new LocationSearchDialog(
-		// 			this.app,
-		// 			this,
-		// 			this.settings,
-		// 			'addToNote',
-		// 			'Add geolocation to note',
-		// 			editor
-		// 		);
-		// 		dialog.open();
-		// 	},
-		// });
+		if (this.settings.supportRealTimeGeolocation) {
+			this.addCommand({
+				id: 'gps-focus-in-map-view',
+				name: 'GPS: find location and focus',
+				callback: () => {
+					askForLocation(this.settings, 'locate', 'showonmap');
+				},
+			});
 
-		// this.addCommand({
-		// 	id: 'open-map-search',
-		// 	name: 'Search active map view',
-		// 	checkCallback: (checking) => {
-		// 		const currentView = this.app.workspace.activeLeaf.view;
-		// 		if (
-		// 			currentView &&
-		// 			currentView.getViewType() == consts.MAP_VIEW_NAME
-		// 		) {
-		// 			if (!checking)
-		// 				(currentView as MainMapView).mapContainer.openSearch();
-		// 			return true;
-		// 		} else return false;
-		// 	},
-		// });
+			this.addCommand({
+				id: 'gps-copy-inline-location',
+				name: 'GPS: copy inline location',
+				callback: () => {
+					askForLocation(
+						this.settings,
+						'locate',
+						'copyinlinelocation'
+					);
+				},
+			});
 
-		// this.addCommand({
-		// 	id: 'quick-map-embed',
-		// 	name: 'Add an embedded map',
-		// 	editorCallback: (editor: Editor, ctx) => {
-		// 		this.openQuickEmbed(editor);
-		// 	},
-		// });
+			this.addCommand({
+				id: 'gps-new-note-here',
+				name: 'GPS: new geolocation note',
+				callback: () => {
+					askForLocation(this.settings, 'locate', 'newnotehere');
+				},
+			});
 
-		// if (this.settings.supportRealTimeGeolocation) {
-		// 	this.addCommand({
-		// 		id: 'gps-focus-in-map-view',
-		// 		name: 'GPS: find location and focus',
-		// 		callback: () => {
-		// 			askForLocation(this.settings, 'locate', 'showonmap');
-		// 		},
-		// 	});
+			this.addCommand({
+				id: 'gps-add-to-current-note-front-matter',
+				name: 'GPS: add geolocation (front matter) to current note',
+				editorCallback: () => {
+					askForLocation(
+						this.settings,
+						'locate',
+						'addtocurrentnotefm'
+					);
+				},
+			});
 
-		// 	this.addCommand({
-		// 		id: 'gps-copy-inline-location',
-		// 		name: 'GPS: copy inline location',
-		// 		callback: () => {
-		// 			askForLocation(
-		// 				this.settings,
-		// 				'locate',
-		// 				'copyinlinelocation'
-		// 			);
-		// 		},
-		// 	});
+			this.addCommand({
+				id: 'gps-add-to-current-note-inline',
+				name: 'GPS: add geolocation (inline) at current position',
+				editorCallback: () => {
+					askForLocation(
+						this.settings,
+						'locate',
+						'addtocurrentnoteinline'
+					);
+				},
+			});
+		}
 
-		// 	this.addCommand({
-		// 		id: 'gps-new-note-here',
-		// 		name: 'GPS: new geolocation note',
-		// 		callback: () => {
-		// 			askForLocation(this.settings, 'locate', 'newnotehere');
-		// 		},
-		// 	});
+		this.addSettingTab(new SettingTab(this.app, this));
 
-		// 	this.addCommand({
-		// 		id: 'gps-add-to-current-note-front-matter',
-		// 		name: 'GPS: add geolocation (front matter) to current note',
-		// 		editorCallback: () => {
-		// 			askForLocation(
-		// 				this.settings,
-		// 				'locate',
-		// 				'addtocurrentnotefm'
-		// 			);
-		// 		},
-		// 	});
+		// As part of geoLinkReplacers.ts, geolinks in notes are embedded with mouse events that
+		// override the default Obsidian behavior.
+		// We can only add these as strings, so to make this work, the functions that handle these mouse
+		// events need to be global.
+		// This one handles a geolink in a note.
+		(window as any).handleMapViewGeoLink = (
+			event: PointerEvent,
+			documentLocation: number,
+			markerId: string,
+			lat: string,
+			lng: string
+		) => {
+			event.preventDefault();
+			const location = new leaflet.LatLng(
+				parseFloat(lat),
+				parseFloat(lng)
+			);
+			this.openMapWithLocation(
+				location,
+				utils.mouseEventToOpenMode(this.settings, event, 'openMap'),
+				null,
+				null,
+				false,
+				markerId
+			);
+		};
 
-		// 	this.addCommand({
-		// 		id: 'gps-add-to-current-note-inline',
-		// 		name: 'GPS: add geolocation (inline) at current position',
-		// 		editorCallback: () => {
-		// 			askForLocation(
-		// 				this.settings,
-		// 				'locate',
-		// 				'addtocurrentnoteinline'
-		// 			);
-		// 		},
-		// 	});
-		// }
+		// As part of geoLinkReplacers.ts, geolinks in notes are embedded with mouse events that
+		// override the default Obsidian behavior.
+		// We can only add these as strings, so to make this work, the functions that handle these mouse
+		// events need to be global.
+		// This one opens a map preview popup on mouse enter.
+		(window as any).createMapPopup = (
+			event: PointerEvent,
+			documentLocation: number,
+			markerId: string,
+			lat: string,
+			lng: string
+		) => {
+			if (!this.settings.showGeolinkPreview) return;
+			if (this.mapPreviewPopup) {
+				this.mapPreviewPopup.close(event);
+				this.mapPreviewPopup = null;
+			}
+			// See the class comment in MapPreviewPopup.
+			// This is inefficient: the map is loaded every time a user hovers a link, which can be time-consuming
+			// for huge vaults.
+			this.mapPreviewPopup = new MapPreviewPopup(
+				this.settings,
+				this,
+				this.app
+			);
+			this.mapPreviewPopup.open(
+				event,
+				documentLocation,
+				markerId,
+				lat,
+				lng
+			);
+		};
 
-		// this.addSettingTab(new SettingTab(this.app, this));
+		// As part of geoLinkReplacers.ts, geolinks in notes are embedded with mouse events that
+		// override the default Obsidian behavior.
+		// We can only add these as strings, so to make this work, the functions that handle these mouse
+		// events need to be global.
+		// This one closes the map preview popup on mouse leave.
+		(window as any).closeMapPopup = (event: PointerEvent) => {
+			this.mapPreviewPopup.close(event);
+		};
 
-		// // As part of geoLinkReplacers.ts, geolinks in notes are embedded with mouse events that
-		// // override the default Obsidian behavior.
-		// // We can only add these as strings, so to make this work, the functions that handle these mouse
-		// // events need to be global.
-		// // This one handles a geolink in a note.
-		// (window as any).handleMapViewGeoLink = (
-		// 	event: PointerEvent,
-		// 	documentLocation: number,
-		// 	markerId: string,
-		// 	lat: string,
-		// 	lng: string
-		// ) => {
-		// 	event.preventDefault();
-		// 	const location = new leaflet.LatLng(
-		// 		parseFloat(lat),
-		// 		parseFloat(lng)
-		// 	);
-		// 	this.openMapWithLocation(
-		// 		location,
-		// 		utils.mouseEventToOpenMode(this.settings, event, 'openMap'),
-		// 		null,
-		// 		null,
-		// 		false,
-		// 		markerId
-		// 	);
-		// };
+		// Add items to the file context menu (run when the context menu is built)
+		// This is the context menu in the File Explorer and clicking "More options" (three dots) from within a file.
+		this.app.workspace.on('file-menu', (menu, file, source, leaf) =>
+			this.onFileMenu(menu, file, source, leaf)
+		);
 
-		// // As part of geoLinkReplacers.ts, geolinks in notes are embedded with mouse events that
-		// // override the default Obsidian behavior.
-		// // We can only add these as strings, so to make this work, the functions that handle these mouse
-		// // events need to be global.
-		// // This one opens a map preview popup on mouse enter.
-		// (window as any).createMapPopup = (
-		// 	event: PointerEvent,
-		// 	documentLocation: number,
-		// 	markerId: string,
-		// 	lat: string,
-		// 	lng: string
-		// ) => {
-		// 	if (!this.settings.showGeolinkPreview) return;
-		// 	if (this.mapPreviewPopup) {
-		// 		this.mapPreviewPopup.close(event);
-		// 		this.mapPreviewPopup = null;
-		// 	}
-		// 	// See the class comment in MapPreviewPopup.
-		// 	// This is inefficient: the map is loaded every time a user hovers a link, which can be time-consuming
-		// 	// for huge vaults.
-		// 	this.mapPreviewPopup = new MapPreviewPopup(
-		// 		this.settings,
-		// 		this,
-		// 		this.app
-		// 	);
-		// 	this.mapPreviewPopup.open(
-		// 		event,
-		// 		documentLocation,
-		// 		markerId,
-		// 		lat,
-		// 		lng
-		// 	);
-		// };
+		this.app.workspace.on('active-leaf-change', (leaf) => {
+			if (utils.lastUsedLeaves.contains(leaf)) {
+				utils.lastUsedLeaves.remove(leaf);
+			}
+			utils.lastUsedLeaves.unshift(leaf);
+		});
 
-		// // As part of geoLinkReplacers.ts, geolinks in notes are embedded with mouse events that
-		// // override the default Obsidian behavior.
-		// // We can only add these as strings, so to make this work, the functions that handle these mouse
-		// // events need to be global.
-		// // This one closes the map preview popup on mouse leave.
-		// (window as any).closeMapPopup = (event: PointerEvent) => {
-		// 	this.mapPreviewPopup.close(event);
-		// };
+		// Currently frozen until I have time to work on this feature's quirks
+		// if (this.app.workspace.layoutReady) this.initMiniMap()
+		// else this.app.workspace.onLayoutReady(() => this.initMiniMap());
 
-		// // Add items to the file context menu (run when the context menu is built)
-		// // This is the context menu in the File Explorer and clicking "More options" (three dots) from within a file.
-		// this.app.workspace.on('file-menu', (menu, file, source, leaf) =>
-		// 	this.onFileMenu(menu, file, source, leaf)
-		// );
+		// Add items to the editor context menu (run when the context menu is built)
+		// This is the context menu when right clicking within an editor view.
+		this.app.workspace.on('editor-menu', (menu, editor, view) => {
+			this.onEditorMenu(menu, editor, view as MarkdownView);
+		});
 
-		// this.app.workspace.on('active-leaf-change', (leaf) => {
-		// 	if (utils.lastUsedLeaves.contains(leaf)) {
-		// 		utils.lastUsedLeaves.remove(leaf);
-		// 	}
-		// 	utils.lastUsedLeaves.unshift(leaf);
-		// });
-
-		// // Currently frozen until I have time to work on this feature's quirks
-		// // if (this.app.workspace.layoutReady) this.initMiniMap()
-		// // else this.app.workspace.onLayoutReady(() => this.initMiniMap());
-
-		// // Add items to the editor context menu (run when the context menu is built)
-		// // This is the context menu when right clicking within an editor view.
-		// this.app.workspace.on('editor-menu', (menu, editor, view) => {
-		// 	this.onEditorMenu(menu, editor, view as MarkdownView);
-		// });
-
-		// // Watch for pasted text and add a 'locations:' front matter where applicable if the user pastes
-		// // an inline geolocation
-		// this.app.workspace.on(
-		// 	'editor-paste',
-		// 	(evt: ClipboardEvent, editor: Editor) => {
-		// 		if (this.settings.fixFrontMatterOnPaste) {
-		// 			const text = evt.clipboardData.getData('text');
-		// 			if (text) {
-		// 				const inlineMatch = matchInlineLocation(text);
-		// 				if (inlineMatch && inlineMatch.length > 0) {
-		// 					// The pasted text contains an inline location, so try to help the user by verifying
-		// 					// a frontmatter exists
-		// 					if (
-		// 						utils.verifyOrAddFrontMatterForInline(
-		// 							editor,
-		// 							this.settings
-		// 						)
-		// 					) {
-		// 						new Notice(
-		// 							"The note's front matter was updated to denote locations are present"
-		// 						);
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// );
+		// Watch for pasted text and add a 'locations:' front matter where applicable if the user pastes
+		// an inline geolocation
+		this.app.workspace.on(
+			'editor-paste',
+			(evt: ClipboardEvent, editor: Editor) => {
+				if (this.settings.fixFrontMatterOnPaste) {
+					const text = evt.clipboardData.getData('text');
+					if (text) {
+						const inlineMatch = matchInlineLocation(text);
+						if (inlineMatch && inlineMatch.length > 0) {
+							// The pasted text contains an inline location, so try to help the user by verifying
+							// a frontmatter exists
+							if (
+								utils.verifyOrAddFrontMatterForInline(
+									editor,
+									this.settings
+								)
+							) {
+								new Notice(
+									"The note's front matter was updated to denote locations are present"
+								);
+							}
+						}
+					}
+				}
+			}
+		);
 
 		/* AI Plugin */
 		this.build_api();
