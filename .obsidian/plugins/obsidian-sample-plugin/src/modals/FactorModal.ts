@@ -1,4 +1,4 @@
-import { App, Modal, Setting, } from 'obsidian';
+import { App, Modal, Setting, Notice, TFile } from 'obsidian';
 
 // Modal to display factors from Obsidian files
 export class FactorModal extends Modal {
@@ -27,12 +27,27 @@ export class FactorModal extends Modal {
 		new Setting(contentEl)
 			.addButton((btn) =>
 				btn
-					.setButtonText("Create Factors File")
+					.setButtonText("Create Output File")
 					.setCta()
 					.onClick(() => {
-						this.close();
-						this.onSubmit(list, this.choice);
+						if (this.app.vault.getAbstractFileByPath("Output.md") == null) {
+							//this.app.vault.createFolder("../obsidian-plugin/Output");
+							this.app.vault.create("../obsidian-plugin/Output.md", "");
+						}
+						else {
+							new Notice("Output.md already exists!");
+						}
 					}));
+
+		new Setting(contentEl)
+		.addButton((btn2) =>
+			btn2
+				.setButtonText("Analyze Data")
+				.setCta()
+				.onClick(() => {
+					this.close();
+					this.onSubmit(list, this.choice);
+				}));
 
 		// Choose read matrix or md file
 		// new Setting(contentEl)

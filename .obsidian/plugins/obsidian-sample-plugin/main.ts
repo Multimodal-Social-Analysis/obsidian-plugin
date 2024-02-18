@@ -7,6 +7,7 @@ import {
 	PluginSettingTab,
 	Setting,
 	TFile,
+	TFolder,
 	FileView,
 	Menu,
 	WorkspaceLeaf,
@@ -634,34 +635,36 @@ export default class MyPlugin extends Plugin {
 		this.addSettingTab(new SettingTab(this.app, this));
 	}
 
-	async readMdFile(f: string) {
-		console.log("Reading file.")
+	//Original readMdFile
 
-		const vault = this.app.vault;
-		const fileName = f;
+	// async readMdFile(f: string) {
+	// 	console.log("Reading file.")
 
-		// Create a TFile object for the target .md file
-		//const file: TFile | null = vault.getAbstractFileByPath('Data/' + fileName) as TFile;
-		const file: TFile | null = vault.getAbstractFileByPath(fileName) as TFile;
+	// 	const vault = this.app.vault;
+	// 	const fileName = f;
 
-		// If file exist
-		if (file) {
-			try {
-				// Read file from vault
-				const fileContent = await vault.read(file);
+	// 	// Create a TFile object for the target .md file
+	// 	//const file: TFile | null = vault.getAbstractFileByPath('Data/' + fileName) as TFile;
+	// 	const file: TFile | null = vault.getAbstractFileByPath(fileName) as TFile;
 
-				new Notice(fileContent);
-				console.log(fileContent);
-			}
-			catch (error) {
-				console.error(error);
-			}
-		}
-		else {
-			console.error(`File not found: ${fileName}`);
-			new Notice(`File not found: ${fileName}`);
-		}
-	}
+	// 	// If file exist
+	// 	if (file) {
+	// 		try {
+	// 			// Read file from vault
+	// 			const fileContent = await vault.read(file);
+
+	// 			new Notice(fileContent);
+	// 			console.log(fileContent);
+	// 		}
+	// 		catch (error) {
+	// 			console.error(error);
+	// 		}
+	// 	}
+	// 	else {
+	// 		console.error(`File not found: ${fileName}`);
+	// 		new Notice(`File not found: ${fileName}`);
+	// 	}
+	// }
 
 	async readMatrix(f: string) {
 		console.log("Reading matrix.");
@@ -704,64 +707,82 @@ export default class MyPlugin extends Plugin {
 
 	}
 
-	async readMdFile2(f: string) {
+	async readMdFile(f: string) {
 		const vault = this.app.vault;
-		//const fileName = f + '.md';
 		const fileName = f;
 
 		// Create a TFile object for the target .md file
-		//const file: TFile | null = vault.getAbstractFileByPath('Data/' + fileName) as TFile;
 		const file: TFile | null = vault.getAbstractFileByPath(fileName) as TFile;
+		const pathCheck: TAbstractFile | null = vault.getAbstractFileByPath(fileName) as TAbstractFile;
 
 		// Read file from vault
 		const fileContent = await vault.read(file);
 
 		//Adds to New File from "fileContent"
-		const factorFilePath: TFile | null = vault.getAbstractFileByPath("Data/Factors.md") as TFile;
+		const factorFilePath: TFile | null = vault.getAbstractFileByPath("Output.md") as TFile;
 		//vault.append(factorFilePath, ("[[" + fileName + "]]" + "\n"));
 
-		//vault.append(factorFilePath, ("[["));
 		var test = false;
 		var tagExists = false;
 		var tagDone = false;
-		for (let i = 0; i < fileContent.length; i++) {
-			//Check if the next char creates a tag "possibility"
-			//if(fileContent[i+1] == "#"){
-			//	vault.append(factorFilePath, "\n");
-			//}
+		var sentence = "";
+		var factor = "";
 
-			if (fileContent[i] == "#") {
-				//if (firstTag == true){
-				//	vault.append(factorFilePath, "# ");
-				//firstTag = false;
-				//}
-				//if (firstTag = true) {
-				//	vault.append(factorFilePath, "\n");
-				//}
+		if(pathCheck.path.slice(0, 5) == "Data/"){
+			vault.append(factorFilePath, ("# [[" + fileName + "]]" + "\n"));
 
-				test = true;
-				vault.append(factorFilePath, "\n");
-				vault.append(factorFilePath, "# ");
-				continue;
-			}
-			if ((fileContent[i] == " " || fileContent[i] == "\n") && test == true) {
-				test = false
-				tagDone = true;
-			}
-			if (test == true) {
-				tagExists = true;
-				vault.append(factorFilePath, fileContent[i]);
-			}
-			if (tagDone == true && tagExists == true) {
-				vault.append(factorFilePath, "\n");
-				vault.append(factorFilePath, ("[[" + fileName + "]]" + "\n"));
-				vault.append(factorFilePath, "\n");
-				tagDone = false;
-				tagExists = false;
+			for (let i = 0; i < fileContent.length; i++) {
+
+				if (fileContent[i] == "." || fileContent[i] == "!" || fileContent[i] == "?") {
+					sentence = "";
+				}
+				else {
+					sentence += fileContent[i];
+				}
+
+				if (fileContent[i] == "[" && fileContent[i+1] == "[") {
+					test = true;
+					vault.append(factorFilePath, "\n");
+					vault.append(factorFilePath, sentence);
+					sentence = "";
+					//vault.append(factorFilePath, "# ");
+					continue;
+				}
+
+				if ((fileContent[i] == "]" && fileContent[i+1] == "]") && test == true) {
+					test = false
+					tagDone = true;
+					sentence = "";
+					continue;
+				}
+				if (test == true) {
+					tagExists = true;
+					vault.append(factorFilePath, fileContent[i]);
+				}
+				if (tagDone == true && tagExists == true) {
+					vault.append(factorFilePath, "]]");
+					vault.append(factorFilePath, "\n");
+					tagDone = false;
+					tagExists = false;
+				}
+
+				// if ((fileContent[i] == " " || fileContent[i] == "\n") && test == true) {
+				// 	test = false
+				// 	tagDone = true;
+				// }
+				// if (test == true) {
+				// 	tagExists = true;
+				// 	vault.append(factorFilePath, fileContent[i]);
+				// }
+				// if (tagDone == true && tagExists == true) {
+				// 	vault.append(factorFilePath, "\n");
+				// 	vault.append(factorFilePath, ("[[" + fileName + "]]" + "\n"));
+				// 	vault.append(factorFilePath, "\n");
+				// 	tagDone = false;
+				// 	tagExists = false;
+				// }
 			}
 		}
-		//if (tagExists == true)
-		//	vault.append(factorFilePath, "\n");
 	}
 
 	// async selectFactor(){
@@ -782,12 +803,12 @@ export default class MyPlugin extends Plugin {
 		new FactorModal(this.app, (result, choice) => {
 			if (choice == "File") {
 				//create a new file to hold the factors
-				const vault = this.app.vault;
-				vault.create("../obsidian-plugin/Data/Factors.md", "");
+				//const vault = this.app.vault;
+				//vault.create("../obsidian-plugin/Output.md", "");
 
 				// Loop to read every file in the "Data" folder
 				for (let i = 0; i < Object.keys(result).length; i++) {
-					this.readMdFile2(result[i]);
+					this.readMdFile(result[i]);
 					//vault.process(factorFilePath, (string) => fileName);
 				}
 			}
